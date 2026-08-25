@@ -1,0 +1,1046 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Khung pháp lý Ngân hàng và Fintech — Sơ đồ tư duy</title>
+<style>
+  :root{
+    --bg:#F7F3EA;
+    --canvas:#FAF7F0;
+    --ink:#2A2724;
+    --ink-mid:#544D43;
+    --ink-soft:#8A8175;
+    --line:#E3DCCB;
+    --card:#FFFFFF;
+
+    --c1:#4C5FD5;  /* Sandbox công nghệ số      */
+    --c2:#0F8C7F;  /* Sandbox ngân hàng-fintech */
+    --c3:#C2721C;  /* Tài sản mã hóa            */
+    --c4:#8A4A7D;  /* Trung tâm tài chính QT    */
+
+    --flag:#C2721C;
+    --draft:#9A938A;
+  }
+
+  *{box-sizing:border-box}
+  html,body{height:100%}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--ink);
+    font:400 14px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+    display:flex;flex-direction:column;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  /* ── header ───────────────────────────────────────────── */
+  .hdr{
+    padding:18px 24px 14px;
+    border-bottom:1px solid var(--line);
+    display:flex;align-items:baseline;gap:16px;flex-wrap:wrap;
+  }
+  .hdr h1{margin:0;font-size:17px;font-weight:650;letter-spacing:-.01em}
+  .hdr .sub{margin:0;font-size:12.5px;color:var(--ink-soft)}
+  .hdr .sub kbd{
+    font:inherit;background:#fff;border:1px solid var(--line);
+    border-radius:4px;padding:1px 5px;color:var(--ink-mid)
+  }
+
+  /* ── stage ────────────────────────────────────────────── */
+  #stage{position:relative;flex:1;min-height:0;background:var(--canvas);overflow:hidden}
+  #map{width:100%;height:100%;display:block;cursor:grab;touch-action:none}
+  #map.grabbing{cursor:grabbing}
+
+  #map .node{cursor:pointer;transition:transform .28s cubic-bezier(.4,.1,.2,1)}
+  #map .box{transition:fill .15s,stroke-width .15s}
+  #map .node:hover .box{stroke-width:2.4}
+  #map text{user-select:none}
+  #map .edge{fill:none;transition:opacity .2s}
+
+  /* ── zoom controls ────────────────────────────────────── */
+  .zoom{position:absolute;right:16px;bottom:16px;display:flex;flex-direction:column;gap:6px}
+  .zoom button{
+    width:34px;height:34px;border:1px solid var(--line);background:#fff;
+    border-radius:9px;color:var(--ink-mid);font-size:15px;cursor:pointer;
+    display:grid;place-items:center;line-height:1;
+    box-shadow:0 1px 2px rgba(42,39,36,.05);
+  }
+  .zoom button:hover{background:#FFFDF8;color:var(--ink);border-color:#D6CDB8}
+  .zoom button:active{transform:translateY(1px)}
+
+  /* legend nằm trong header để không bao giờ che node trên canvas */
+  .legend{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:11.5px;color:var(--ink-mid);margin-left:auto}
+  .legend span{display:inline-flex;align-items:center;gap:6px;white-space:nowrap}
+  .legend i{width:8px;height:8px;border-radius:50%;flex:none}
+
+  /* ── detail panel ─────────────────────────────────────── */
+  #scrim{position:fixed;inset:0;background:rgba(42,39,36,.12);z-index:20}
+  .panel{
+    position:fixed;top:0;right:0;bottom:0;width:392px;z-index:21;
+    background:var(--card);border-left:1px solid var(--line);
+    box-shadow:-8px 0 32px rgba(42,39,36,.09);
+    display:flex;flex-direction:column;
+    animation:slide .24s cubic-bezier(.4,.1,.2,1);
+  }
+  @keyframes slide{from{transform:translateX(14px);opacity:0}to{transform:none;opacity:1}}
+
+  /* .panel có display:flex nên attribute [hidden] (display:none của UA stylesheet)
+     bị ghi đè → panel rỗng luôn hiển thị. Phải tự vô hiệu hóa theo [hidden]. */
+  .panel[hidden]{display:none}
+  #scrim[hidden]{display:none}
+
+  .p-head{padding:20px 22px 14px;border-bottom:1px solid var(--line);position:relative}
+  .p-head .kicker{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:7px}
+  .p-head .code{font-size:19px;font-weight:680;letter-spacing:-.015em;margin:0 0 5px;line-height:1.25}
+  .p-head .name{font-size:13.5px;color:var(--ink-mid);margin:0;line-height:1.45}
+  .p-close{
+    position:absolute;top:14px;right:14px;width:28px;height:28px;
+    border:1px solid var(--line);background:#fff;border-radius:7px;
+    cursor:pointer;color:var(--ink-soft);font-size:15px;line-height:1;display:grid;place-items:center
+  }
+  .p-close:hover{color:var(--ink);border-color:#D6CDB8}
+
+  .p-body{padding:18px 22px 28px;overflow-y:auto;flex:1}
+  .p-row{display:grid;grid-template-columns:96px 1fr;gap:10px;padding:7px 0;font-size:13px;border-bottom:1px dashed var(--line)}
+  .p-row dt{color:var(--ink-soft);font-size:12px;padding-top:1px}
+  .p-row dd{margin:0;color:var(--ink)}
+  dl{margin:0 0 18px}
+
+  .p-sec{margin:0 0 8px;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-soft)}
+  .p-fn{margin:0 0 18px;font-size:13.5px;line-height:1.6;color:var(--ink-mid)}
+  .p-list{margin:0 0 18px;padding:0;list-style:none;display:grid;gap:7px}
+  .p-list li{
+    font-size:13px;line-height:1.5;color:var(--ink-mid);
+    padding-left:13px;position:relative
+  }
+  .p-list li:before{
+    content:"";position:absolute;left:0;top:8px;width:4px;height:4px;border-radius:50%;background:currentColor;opacity:.45
+  }
+  .p-src{
+    display:inline-flex;align-items:center;gap:6px;font-size:12.5px;
+    color:var(--ink-mid);text-decoration:none;
+    border:1px solid var(--line);border-radius:8px;padding:7px 11px;background:#FFFDF8
+  }
+  .p-src:hover{border-color:#D6CDB8;color:var(--ink)}
+  .p-note{
+    margin:16px 0 0;font-size:12px;line-height:1.55;color:var(--ink-soft);
+    background:#FDF8EC;border:1px solid #EFE2C6;border-radius:9px;padding:10px 12px
+  }
+
+  .tag{
+    display:inline-block;font-size:11px;padding:2.5px 8px;border-radius:20px;
+    border:1px solid currentColor;line-height:1.4;margin:0 6px 6px 0
+  }
+
+  /* ── footer ───────────────────────────────────────────── */
+  .ftr{
+    padding:11px 24px;border-top:1px solid var(--line);
+    font-size:11.5px;line-height:1.6;color:var(--ink-soft);
+  }
+  .ftr a{color:var(--ink-mid)}
+
+  @media (max-width:900px){
+    .panel{
+      top:auto;left:0;width:auto;max-height:74vh;border-left:0;
+      border-top:1px solid var(--line);border-radius:16px 16px 0 0;
+      animation:up .26s cubic-bezier(.4,.1,.2,1)
+    }
+    @keyframes up{from{transform:translateY(20px);opacity:0}to{transform:none;opacity:1}}
+    .legend{margin-left:0;font-size:11px}
+    .hdr{padding:14px 16px 12px;gap:10px}
+  }
+</style>
+</head>
+<body>
+
+<header class="hdr">
+  <h1>Khung pháp lý Ngân hàng và Fintech</h1>
+  <p class="sub">
+    Click node để xem chi tiết · click dấu <strong>−</strong> / <strong>+</strong> để thu/mở nhánh · kéo để di chuyển · cuộn để phóng to
+  </p>
+  <div class="legend" aria-hidden="true">
+    <span><i style="background:var(--c1)"></i> Sandbox công nghệ số</span>
+    <span><i style="background:var(--c2)"></i> Sandbox ngân hàng &amp; fintech</span>
+    <span><i style="background:var(--c3)"></i> Tài sản mã hóa</span>
+    <span><i style="background:var(--c4)"></i> Trung tâm tài chính quốc tế</span>
+  </div>
+</header>
+
+<div id="stage">
+  <svg id="map" aria-label="Sơ đồ tư duy khung pháp lý ngân hàng và fintech"></svg>
+
+  <div class="zoom">
+    <button id="zin"  title="Phóng to"      aria-label="Phóng to">+</button>
+    <button id="zout" title="Thu nhỏ"       aria-label="Thu nhỏ">−</button>
+    <button id="zfit" title="Vừa khung"     aria-label="Vừa khung">⤢</button>
+  </div>
+</div>
+
+<footer class="ftr">
+  Thông tin tham khảo phục vụ tra cứu nội bộ, <strong>không phải tư vấn pháp lý chính thức</strong>.
+  Trước khi viện dẫn trong tài liệu chính thức, đối chiếu bản gốc tại
+  <a href="https://vbpl.vn" target="_blank" rel="noopener">vbpl.vn</a>,
+  <a href="https://vanban.chinhphu.vn" target="_blank" rel="noopener">vanban.chinhphu.vn</a> hoặc
+  <a href="https://congbao.chinhphu.vn" target="_blank" rel="noopener">congbao.chinhphu.vn</a>.
+  Nội dung cập nhật đến 25/08/2026. Node gắn nhãn <em>cần đối chiếu</em> hoặc <em>dự thảo</em> là phần chưa xác minh đủ — không dùng trực tiếp.
+</footer>
+
+<div id="scrim" hidden></div>
+<aside id="panel" class="panel" hidden role="dialog" aria-modal="false" aria-label="Chi tiết văn bản"></aside>
+
+<script>
+/* ══════════════════════════════════════════════════════════════════════
+   DATA — toàn bộ nội dung pháp lý. Sửa/bổ sung văn bản chỉ cần chỉnh
+   khối này, không cần chạm vào phần render bên dưới.
+
+   role   : 'Luật nền' | 'Nghị định hướng dẫn' | 'Nghị quyết thí điểm' | ...
+   status : 'ok'    — số hiệu, ngày ban hành, ngày hiệu lực đã xác minh
+            'check' — còn điểm cần đối chiếu bản gốc (ghi rõ ở field note)
+            'draft' — chưa ban hành / mới là dự thảo
+   shared : văn bản xuất hiện ở nhiều nhánh
+   ══════════════════════════════════════════════════════════════════════ */
+const DATA = {
+  id:'root', kind:'root',
+  title:'Khung pháp lý Ngân hàng và Fintech',
+  children:[
+
+  /* ─────────────────── NHÁNH 1 ─────────────────── */
+  {
+    id:'b1', kind:'branch', color:'c1', side:'R',
+    title:'Sandbox công nghệ số',
+    role:'Trụ 1 — thử nghiệm công nghệ',
+    chucNang:'Cơ chế thử nghiệm có kiểm soát cho sản phẩm, dịch vụ ứng dụng công nghệ số nói chung — không giới hạn ở ngành ngân hàng. Điểm cần nhớ: Luật Công nghiệp công nghệ số không tự quy định thủ tục sandbox mà dẫn chiếu sang pháp luật về khoa học, công nghệ và đổi mới sáng tạo; phần thủ tục nằm ở nghị định hướng dẫn.',
+    children:[
+      {
+        id:'l71', kind:'doc', code:'Luật 71/2025/QH15', shared:true,
+        name:'Luật Công nghiệp công nghệ số',
+        title:'Luật Công nghiệp công nghệ số số 71/2025/QH15',
+        role:'Luật nền', status:'ok',
+        banHanh:'14/06/2025 — Quốc hội khóa XV, Kỳ họp thứ 9',
+        hieuLuc:'01/01/2026',
+        quyMo:'6 chương, 51 điều',
+        chucNang:'Luật khung cho công nghiệp công nghệ số: phát triển công nghiệp công nghệ số, công nghiệp bán dẫn, trí tuệ nhân tạo và tài sản số. Đây đồng thời là văn bản đầu tiên đưa "tài sản số" vào luật, nên nó là điểm giao giữa nhánh Sandbox công nghệ số và nhánh Tài sản mã hóa.',
+        dieuKhoan:[
+          'Điều 4 — chính sách phát triển: có cơ chế thử nghiệm có kiểm soát đối với sản phẩm, dịch vụ ứng dụng công nghệ số, kèm cơ chế loại trừ trách nhiệm cho cơ quan, tổ chức, doanh nghiệp, cá nhân khi thử nghiệm.',
+          'Điều 8 — Thử nghiệm có kiểm soát sản phẩm, dịch vụ ứng dụng công nghệ số: dẫn chiếu thực hiện theo pháp luật về khoa học, công nghệ và đổi mới sáng tạo (Luật 93/2025/QH15).',
+          'Điều 12 — quy định 06 nhóm hành vi bị nghiêm cấm, trong đó có hành vi giả mạo, gian dối để được loại trừ trách nhiệm trong thử nghiệm có kiểm soát.'
+        ],
+        nguon:{url:'https://vbpl.vn/TW/Pages/vbpq-van-ban-goc.aspx?ItemID=179989', label:'vbpl.vn — bản gốc ký số'},
+        note:'Nội dung chi tiết các điều về tài sản số chưa được đối chiếu toàn văn trong lần tra cứu này; nếu cần viện dẫn số điều/khoản cụ thể, lấy bản PDF từ vbpl.vn trước.',
+        children:[
+          {
+            id:'nd353', kind:'doc', code:'NĐ 353/2025/NĐ-CP',
+            name:'Quy định chi tiết Luật Công nghiệp công nghệ số',
+            title:'Nghị định số 353/2025/NĐ-CP quy định chi tiết một số điều và biện pháp để tổ chức, hướng dẫn thi hành Luật Công nghiệp công nghệ số',
+            role:'Nghị định hướng dẫn', status:'ok',
+            banHanh:'31/12/2025 — Chính phủ (ký: Nguyễn Chí Dũng)',
+            hieuLuc:'01/01/2026 — đồng bộ với Luật 71/2025/QH15',
+            chucNang:'Đây là nơi đặt thủ tục hành chính thật của sandbox công nghệ số: cấp phép, gia hạn, điều chỉnh và kết thúc thử nghiệm. Đồng thời quy định ưu đãi, hỗ trợ cho sản phẩm, dịch vụ công nghệ số (ưu đãi đầu tư; thuê, mua sắm bằng vốn ngân sách; ưu đãi R&D).',
+            dieuKhoan:[
+              'Điều 16 — cơ quan có thẩm quyền và thủ tục cấp phép / gia hạn / điều chỉnh / kết thúc thử nghiệm có kiểm soát; kèm hệ thống biểu mẫu TNCNS01, TNCNS02…',
+              'Nguyên tắc kiểm soát, hạn chế rủi ro khi ứng dụng sản phẩm, dịch vụ mới.'
+            ],
+            nguon:{url:'https://vanban.chinhphu.vn/?pageid=27160&docid=216598', label:'vanban.chinhphu.vn — toàn văn PDF'},
+            note:'Thủ tục tại khoản 2 Điều 16 sau đó được đưa vào Phụ lục I (Phần Đ) của Nghị quyết 20/2026/NQ-CP về phân định thẩm quyền — số hiệu nghị quyết này chưa được đối chiếu bản gốc.'
+          }
+        ]
+      },
+      {
+        id:'l93', kind:'doc', code:'Luật 93/2025/QH15',
+        name:'Luật Khoa học, công nghệ và đổi mới sáng tạo',
+        title:'Luật Khoa học, công nghệ và đổi mới sáng tạo số 93/2025/QH15',
+        role:'Luật nền — gốc của cơ chế sandbox', status:'ok',
+        banHanh:'27/06/2025 — Quốc hội khóa XV, Kỳ họp thứ 9',
+        hieuLuc:'01/10/2025',
+        chucNang:'Luật gốc của cơ chế thử nghiệm có kiểm soát tại Việt Nam. Điều 8 Luật 71/2025/QH15 dẫn chiếu về đây, nên muốn hiểu sandbox công nghệ số thì phải đọc luật này trước. Sandbox áp dụng cho công nghệ và mô hình kinh doanh mới, gắn với chuyển giao công nghệ, phát triển thị trường khoa học công nghệ và khai thác dữ liệu số.',
+        dieuKhoan:[
+          'Điều 22 — xử lý rủi ro trong thử nghiệm có kiểm soát (điều được các quy định khác dẫn chiếu tới).',
+          'Cơ chế miễn trừ trách nhiệm: loại trừ trách nhiệm hành chính, miễn trách nhiệm dân sự đối với thiệt hại gây ra cho Nhà nước nếu đã tuân thủ đầy đủ quy trình và không gian lận, không cố ý vi phạm.',
+          'Không phải hoàn trả kinh phí ngân sách đã sử dụng đúng quy định.'
+        ],
+        nguon:{url:'https://congbao.chinhphu.vn/tai-ve-van-ban-so-93-2025-qh15-45589-57763?format=pdf', label:'Công báo số 973+974 ngày 25/07/2025 — PDF'},
+        note:'Nội dung chi tiết Điều 22 (điều kiện, thẩm quyền cho phép, thời hạn, phạm vi không gian) chưa được trích xuất đầy đủ — đối chiếu bản Công báo trước khi viện dẫn khoản cụ thể.'
+      },
+      {
+        id:'nq193', kind:'doc', code:'NQ 193/2025/QH15',
+        name:'Thí điểm cơ chế đặc biệt cho KHCN và chuyển đổi số',
+        title:'Nghị quyết số 193/2025/QH15 về thí điểm một số cơ chế, chính sách đặc biệt tạo đột phá phát triển khoa học, công nghệ, đổi mới sáng tạo và chuyển đổi số quốc gia',
+        role:'Nghị quyết thí điểm — tiền thân', status:'ok',
+        banHanh:'19/02/2025 — Quốc hội khóa XV, Kỳ họp bất thường lần thứ 9 (ký: Trần Thanh Mẫn)',
+        hieuLuc:'19/02/2025 — từ ngày được Quốc hội thông qua (khoản 1 Điều 16)',
+        quyMo:'4 chương, 17 điều',
+        chucNang:'Văn bản mở đường trước khi Luật 93/2025/QH15 và Luật 71/2025/QH15 có hiệu lực: cơ chế đặc biệt về đầu tư, đấu thầu, tài chính và thuế cho hoạt động khoa học, công nghệ, đổi mới sáng tạo và chuyển đổi số. Điểm cần đọc kỹ: nghị quyết này KHÔNG lập cơ chế thử nghiệm có kiểm soát tổng quát — phần thí điểm có kiểm soát duy nhất nằm ở Điều 13 và chỉ áp cho dịch vụ viễn thông vệ tinh quỹ đạo tầm thấp. Giữ node này để thấy trình tự hình thành thể chế sandbox, không phải để viện dẫn cho sandbox công nghệ số nói chung.',
+        dieuKhoan:[
+          'Điều 13 — thí điểm có kiểm soát dịch vụ viễn thông sử dụng công nghệ vệ tinh quỹ đạo tầm thấp: không giới hạn tỷ lệ sở hữu của nhà đầu tư nước ngoài; do Thủ tướng Chính phủ quyết định theo từng đề án, không quá 05 năm và phải kết thúc trước ngày 01/01/2031.',
+          'Khoản 2 Điều 16 — khi có quy định khác nhau về cùng một vấn đề giữa Nghị quyết này với luật, nghị quyết khác của Quốc hội thì áp dụng Nghị quyết này; nếu văn bản khác ưu đãi hơn thì đối tượng được chọn mức có lợi nhất.',
+          'Các cơ chế đặc biệt khác: Điều 11 hỗ trợ ngân sách cho doanh nghiệp triển khai nhanh hạ tầng 5G · Điều 12 chỉ định thầu cho tuyến cáp viễn thông biển · Điều 14 hỗ trợ nhà máy chip bán dẫn đầu tiên.',
+          'Điều 3 — cho phép tổ chức khoa học công nghệ công lập, cơ sở giáo dục đại học công lập thành lập và góp vốn vào doanh nghiệp từ kết quả nghiên cứu.'
+        ],
+        nguon:{url:'https://vanban.chinhphu.vn/?pageid=27160&docid=212952', label:'vanban.chinhphu.vn — bản ký số'},
+        note:'Đã đối chiếu bản ký số (193-qh.signed.pdf). Toàn văn Chương II và Chương III về cơ chế tài chính, đấu thầu chưa trích xuất đầy đủ — nếu cần viện dẫn khoản cụ thể, mở lại bản PDF.'
+      }
+    ]
+  },
+
+  /* ─────────────────── NHÁNH 2 ─────────────────── */
+  {
+    id:'b2', kind:'branch', color:'c2', side:'R',
+    title:'Sandbox ngân hàng & fintech',
+    role:'Trụ 2 — thử nghiệm trong ngành ngân hàng',
+    chucNang:'Sandbox chuyên ngành do Ngân hàng Nhà nước chủ trì, hẹp hơn và cụ thể hơn sandbox công nghệ số: chỉ 03 giải pháp fintech được thử nghiệm, chỉ tổ chức tín dụng / chi nhánh ngân hàng nước ngoài / công ty fintech được tham gia, và phải có Giấy chứng nhận của NHNN.',
+    children:[
+      {
+        id:'nd94', kind:'doc', code:'NĐ 94/2025/NĐ-CP',
+        name:'Cơ chế thử nghiệm có kiểm soát lĩnh vực ngân hàng',
+        title:'Nghị định số 94/2025/NĐ-CP quy định về Cơ chế thử nghiệm có kiểm soát trong lĩnh vực ngân hàng',
+        role:'Nghị định — trục chính của nhánh', status:'ok',
+        banHanh:'29/04/2025 — Chính phủ',
+        hieuLuc:'01/07/2025',
+        chucNang:'Văn bản cốt lõi cần nhớ của nhánh này. Cho phép triển khai sản phẩm, dịch vụ, mô hình kinh doanh mới thông qua giải pháp công nghệ tài chính trong một khuôn khổ có kiểm soát, nhằm đánh giá rủi ro — chi phí — lợi ích trước khi xây dựng khung pháp lý chính thức.',
+        dieuKhoan:[
+          '03 giải pháp fintech được thử nghiệm: chấm điểm tín dụng · chia sẻ dữ liệu qua giao diện lập trình ứng dụng mở (Open API) · cho vay ngang hàng (P2P Lending).',
+          'Cho vay ngang hàng: nền tảng số kết nối và hỗ trợ giao kết hợp đồng giữa bên đi vay và bên cho vay; đồng tiền sử dụng là đồng Việt Nam.',
+          'Điều 6 — thời gian thử nghiệm tối đa 02 năm tính từ khi được NHNN cấp Giấy chứng nhận; phạm vi giới hạn trên lãnh thổ Việt Nam; thời hạn Giấy chứng nhận không vượt quá thời hạn Giấy phép thành lập / Giấy chứng nhận đăng ký kinh doanh.',
+          'Điều 20 — cơ chế gia hạn thời gian thử nghiệm.',
+          'Đối tượng tham gia: tổ chức tín dụng, chi nhánh ngân hàng nước ngoài và công ty fintech được NHNN cấp Giấy chứng nhận.'
+        ],
+        nguon:{url:'https://sbv.gov.vn/en/w/sbv637609', label:'Thông cáo báo chí Ngân hàng Nhà nước'},
+        note:'Lưu ý khi tra cứu: một số trang luật tư nhân ghi sai ngày ban hành là 09/04 hoặc 30/04/2025. Ngày đúng là 29/04/2025 theo thông cáo của NHNN và Tạp chí Ngân hàng.'
+      },
+      {
+        id:'l32', kind:'doc', code:'Luật 32/2024/QH15',
+        name:'Luật Các tổ chức tín dụng',
+        title:'Luật Các tổ chức tín dụng số 32/2024/QH15',
+        role:'Luật nền', status:'ok',
+        banHanh:'18/01/2024 — Quốc hội khóa XV (ký: Vương Đình Huệ)',
+        hieuLuc:'01/07/2024 (một số điều khoản có mốc hiệu lực riêng)',
+        quyMo:'15 chương, 210 điều',
+        chucNang:'Nền pháp lý cho chính chủ thể tham gia sandbox: quy định thành lập, tổ chức, hoạt động, tổ chức lại, giải thể và phá sản tổ chức tín dụng. Một công ty fintech muốn hợp tác hay trở thành TCTD đều phải soi lại luật này. Điểm cần nhớ khi tra cứu: luật đã qua hai đợt sửa đổi và sắp có đợt thứ ba, nên bản gốc 2024 không còn là bản đang áp dụng.',
+        dieuKhoan:[
+          'Đã bị sửa đổi, bổ sung bởi Luật số 43/2024/QH15 ngày 29/06/2024 (hiệu lực 01/08/2024) và Luật số 96/2025/QH15 ngày 27/06/2025 (hiệu lực 15/10/2025).',
+          'Luật số 96/2025/QH15 luật hóa Nghị quyết 42/2017/QH14 về xử lý nợ xấu: bổ sung Điều 198a (quyền thu giữ tài sản bảo đảm), Điều 198b (tài sản đang bị kê biên trong thi hành án dân sự) và Điều 198c (hoàn trả vật chứng là tài sản bảo đảm trong vụ án hình sự).',
+          'Tiếp tục bị sửa bởi đợt sửa đổi 03 luật thông qua ngày 24/08/2026, hiệu lực 01/12/2026 — xem node "Luật sửa đổi 3 luật (2026)" ở nhánh Tài sản mã hóa.'
+        ],
+        nguon:{url:'https://vanban.chinhphu.vn/?pageid=27160&docid=211190&classid=1&typegroupid=3', label:'vanban.chinhphu.vn — toàn văn'},
+        note:'Khi viện dẫn số điều/khoản cụ thể, KHÔNG dùng bản gốc 32/2024/QH15 mà dùng bản hợp nhất: Văn bản hợp nhất số 158/VBHN-VPQH (Công báo số 1391+1392 ngày 24/09/2025), hợp nhất Luật 32/2024/QH15 với Luật 43/2024/QH15 và Luật 96/2025/QH15. Bản hợp nhất này chưa bao gồm đợt sửa đổi 24/08/2026.'
+      },
+      {
+        id:'nd52', kind:'doc', code:'NĐ 52/2024/NĐ-CP',
+        name:'Thanh toán không dùng tiền mặt',
+        title:'Nghị định số 52/2024/NĐ-CP về thanh toán không dùng tiền mặt',
+        role:'Nghị định', status:'ok',
+        banHanh:'15/05/2024 — Chính phủ',
+        hieuLuc:'01/07/2024 — đồng bộ với Luật Các tổ chức tín dụng 2024',
+        quyMo:'7 chương, 38 điều',
+        chucNang:'Khuôn khổ pháp lý cho hoạt động thanh toán không dùng tiền mặt — mảng fintech đông đúc nhất hiện nay. Xác định rõ chủ thể được cung ứng dịch vụ thanh toán không qua tài khoản thanh toán của khách hàng, cùng điều kiện, hồ sơ, quy trình để được NHNN chấp thuận hoặc thu hồi văn bản chấp thuận.',
+        dieuKhoan:[
+          'Chủ thể được cung ứng dịch vụ thanh toán không qua tài khoản: ngân hàng, quỹ tín dụng nhân dân, tổ chức tài chính vi mô và doanh nghiệp cung ứng dịch vụ bưu chính công ích.',
+          'Sửa đổi, bổ sung quy định về hoạt động cung ứng dịch vụ trung gian thanh toán.'
+        ],
+        nguon:{url:'https://sbv.gov.vn/en/w/sbv598227', label:'Ngân hàng Nhà nước — giới thiệu Nghị định'}
+      }
+    ]
+  },
+
+  /* ─────────────────── NHÁNH 3 ─────────────────── */
+  {
+    id:'b3', kind:'branch', color:'c3', side:'L',
+    title:'Tài sản mã hóa',
+    role:'Trụ 3 — thị trường tài sản mã hóa',
+    chucNang:'Bốn lớp xếp lên nhau: lớp định danh (tài sản số là gì — Luật 71/2025/QH15), lớp thị trường (được làm gì, ai cấp phép — Nghị quyết 05/2025/NQ-CP), lớp tuân thủ (phòng chống rửa tiền — Luật 14/2022/QH15 và cụm văn bản hướng dẫn) và lớp chế tài (Nghị định 284/2026/NĐ-CP, hiệu lực 01/09/2026). Hai mốc cần theo dõi trong năm 2026: chế tài xử phạt có hiệu lực từ 01/09/2026, và dịch vụ tài sản mã hóa chính thức vào diện phòng chống rửa tiền từ 01/12/2026.',
+    children:[
+      {
+        id:'nq05', kind:'doc', code:'NQ 05/2025/NQ-CP',
+        name:'Thí điểm thị trường tài sản mã hóa',
+        title:'Nghị quyết số 05/2025/NQ-CP về việc triển khai thí điểm thị trường tài sản mã hóa tại Việt Nam',
+        role:'Nghị quyết thí điểm — trục chính của nhánh', status:'ok',
+        banHanh:'09/09/2025 — Chính phủ',
+        hieuLuc:'09/09/2025 (từ ngày ban hành) · thí điểm 05 năm',
+        chucNang:'Văn bản cốt lõi cần nhớ của nhánh này. Cho phép thí điểm bốn nhóm hoạt động: chào bán, phát hành tài sản mã hóa; tổ chức thị trường giao dịch; cung cấp dịch vụ tài sản mã hóa; và quản lý nhà nước với thị trường này. Cơ quan cấp phép là Bộ Tài chính — khác với nhánh sandbox ngân hàng do NHNN cấp.',
+        dieuKhoan:[
+          'Đối tượng: tổ chức cung cấp dịch vụ tài sản mã hóa; tổ chức phát hành; tổ chức, cá nhân Việt Nam và nước ngoài tham gia đầu tư trên thị trường trong phạm vi Nghị quyết.',
+          'Thời hạn thí điểm 05 năm; sau khi kết thúc, thị trường tiếp tục vận hành theo Nghị quyết này cho đến khi có quy định sửa đổi, bổ sung hoặc thay thế.',
+          'Nguyên tắc: thận trọng, có kiểm soát, an toàn, minh bạch, bảo vệ quyền lợi các bên. Khi phát sinh rủi ro, Bộ Tài chính có thể đề xuất Chính phủ tạm ngừng hoặc điều chỉnh hoạt động thí điểm.',
+          'Khoản 1 Điều 6 — nhóm tài sản mã hóa chỉ được giao dịch giữa các nhà đầu tư nước ngoài, thông qua tổ chức cung cấp dịch vụ được Bộ Tài chính cấp phép.',
+          'Điều 12 — thu hồi Giấy phép: quá 30 ngày kể từ khi được cấp phép mà không hoạt động (trừ trường hợp bất khả kháng) thì Bộ Tài chính tiến hành thủ tục thu hồi.',
+          'Chế tài: từ 01/09/2026, các nghĩa vụ tại Điều 5, 6, 7, 8, 9, 13, 15 và 16 của Nghị quyết này được bảo đảm bằng Nghị định 284/2026/NĐ-CP về xử phạt vi phạm hành chính.'
+        ],
+        nguon:{url:'https://vanban.chinhphu.vn/?pageid=27160&docid=215249', label:'vanban.chinhphu.vn — toàn văn'},
+        note:'Mức vốn điều lệ tối thiểu cho tổ chức lập sàn giao dịch (con số 10.000 tỷ đồng được nêu trên báo chí qua phát biểu chuyên gia) CHƯA được đối chiếu với điều khoản gốc — không dùng con số này trong tài liệu chính thức trước khi kiểm tra toàn văn.',
+        children:[
+          {
+            id:'nd284', kind:'doc', code:'NĐ 284/2026/NĐ-CP',
+            name:'Xử phạt VPHC về tài sản mã hóa',
+            title:'Nghị định số 284/2026/NĐ-CP quy định xử phạt vi phạm hành chính về tài sản mã hóa và thị trường tài sản mã hóa',
+            role:'Nghị định — lớp chế tài', status:'ok',
+            banHanh:'16/07/2026 — Chính phủ (TM. Chính phủ, KT. Thủ tướng, Phó Thủ tướng Nguyễn Văn Thắng)',
+            hieuLuc:'01/09/2026 — đến ngày Nghị quyết 05/2025/NQ-CP hết hiệu lực (Điều 21)',
+            quyMo:'4 chương, 23 điều',
+            chucNang:'Lớp chế tài đã đóng lại cho nhánh này. Nghị định do Bộ Tài chính đề nghị, căn cứ trực tiếp là Nghị quyết 05/2025/NQ-CP nên vòng đời của nó gắn chặt với nghị quyết thí điểm: hết hiệu lực cùng lúc với nghị quyết. Điểm đáng nhớ nhất là mức trần phạt tiền thấp (200 triệu đồng với tổ chức) nhưng hình thức xử phạt bổ sung rất nặng — có thể tước Giấy phép hoặc đình chỉ hoạt động tới 12 tháng.',
+            dieuKhoan:[
+              'Khoản 2 Điều 1 — 08 nhóm hành vi bị xử phạt: chào bán, phát hành tài sản mã hóa · tổ chức thị trường giao dịch · trách nhiệm của tổ chức cung cấp dịch vụ · giao dịch tài sản mã hóa · chuyển tiền của nhà đầu tư nước ngoài · cản trở thanh tra, kiểm tra · thu thập, mua bán, công khai hóa trái phép dữ liệu tài khoản · phòng chống rửa tiền, tài trợ khủng bố, tài trợ phổ biến vũ khí hủy diệt hàng loạt.',
+              'Điều 3 — xử phạt bổ sung: tước quyền sử dụng Giấy phép cung cấp dịch vụ tổ chức thị trường giao dịch 01–03 tháng; đình chỉ chào bán, phát hành 01–12 tháng; đình chỉ cung cấp dịch vụ 01–06 tháng; đình chỉ giao dịch 01–12 tháng; tịch thu tang vật, phương tiện.',
+              'Điều 4 — mức phạt tiền tối đa 200.000.000 đồng với tổ chức và 100.000.000 đồng với cá nhân; mức phạt tại Chương II áp dụng cho tổ chức, cá nhân vi phạm như tổ chức thì phạt bằng 1/2.',
+              'Điều 5 — thời hiệu xử phạt là 01 năm, kéo dài thêm 01 năm với vụ việc do cơ quan tiến hành tố tụng chuyển đến.',
+              'Điều 13 — điểm giao với nhánh phòng chống rửa tiền: xử phạt hành vi vi phạm về nhận biết khách hàng, đánh giá rủi ro, quy định nội bộ, khách hàng là cá nhân nước ngoài có ảnh hưởng chính trị, báo cáo giao dịch giá trị lớn và giao dịch đáng ngờ, trì hoãn giao dịch, phong tỏa tài khoản.',
+              'Điều 14 — thẩm quyền xử phạt chia cho Thanh tra Chứng khoán Nhà nước, Thanh tra Ngân hàng Nhà nước khu vực, các đơn vị nghiệp vụ Công an, Chủ tịch Ủy ban Chứng khoán Nhà nước và Chủ tịch Ủy ban nhân dân cấp tỉnh.'
+            ],
+            nguon:{url:'https://vanban.chinhphu.vn/?pageid=27160&docid=218906', label:'vanban.chinhphu.vn — bản ký số'},
+            note:'Ranh giới áp dụng: khoản 3 Điều 1 — hành vi vi phạm ở lĩnh vực khác có liên quan đến tài sản mã hóa mà không được quy định tại nghị định này thì áp dụng nghị định xử phạt của lĩnh vực tương ứng. Điều 22 quy định chuyển tiếp cho trường hợp Chính phủ tạm ngừng, đình chỉ hoặc chấm dứt việc thí điểm.'
+          }
+        ]
+      },
+      {
+        id:'l71b', kind:'doc', code:'Luật 71/2025/QH15', shared:true, ref:'l71',
+        name:'Định danh tài sản số / tài sản mã hóa',
+        title:'Luật Công nghiệp công nghệ số số 71/2025/QH15 — góc nhìn tài sản số',
+        role:'Luật nền · dùng chung với nhánh 1', status:'ok',
+        banHanh:'14/06/2025 — Quốc hội khóa XV',
+        hieuLuc:'01/01/2026',
+        chucNang:'Đây là node giao nhau giữa hai nhánh — cùng một văn bản, hai chức năng khác nhau. Ở nhánh Sandbox công nghệ số nó là văn bản mở đường thử nghiệm; ở nhánh này nó là văn bản đầu tiên định danh tài sản số trong hệ thống pháp luật Việt Nam, lồng ghép với Bộ luật Dân sự và phân tách các loại tài sản số theo mục đích sử dụng và công nghệ.',
+        dieuKhoan:[
+          'Phân định phạm vi: tài sản ảo, tài sản mã hóa KHÔNG bao gồm chứng khoán, các dạng số của tiền pháp định và các tài sản tài chính khác — những loại này tiếp tục theo pháp luật dân sự hoặc pháp luật tài chính hiện hành.',
+          'Đây là ranh giới quan trọng nhất cần nhớ: nó quyết định một tài sản thuộc Nghị quyết 05/2025/NQ-CP hay thuộc pháp luật chứng khoán.'
+        ],
+        nguon:{url:'https://vbpl.vn/TW/Pages/vbpq-van-ban-goc.aspx?ItemID=179989', label:'vbpl.vn — bản gốc ký số'},
+        note:'Số điều/khoản cụ thể quy định về tài sản số chưa được đối chiếu toàn văn trong lần tra cứu này.'
+      },
+      {
+        id:'l14', kind:'doc', code:'Luật 14/2022/QH15',
+        name:'Luật Phòng, chống rửa tiền',
+        title:'Luật Phòng, chống rửa tiền số 14/2022/QH15',
+        role:'Luật nền — lớp tuân thủ', status:'ok',
+        banHanh:'15/11/2022 — Quốc hội khóa XV, Kỳ họp thứ 4 (ký: Vương Đình Huệ)',
+        hieuLuc:'01/03/2023 — thay thế Luật Phòng, chống rửa tiền 2012',
+        chucNang:'Lớp tuân thủ bắt buộc chồng lên mọi hoạt động tài sản mã hóa và fintech. Quy định biện pháp phòng ngừa, phát hiện, ngăn chặn, xử lý hành vi rửa tiền; trách nhiệm của cơ quan, tổ chức, cá nhân; và hợp tác quốc tế.',
+        dieuKhoan:[
+          'Phòng chống rửa tiền có mục đích tài trợ khủng bố, tài trợ phổ biến vũ khí hủy diệt hàng loạt thực hiện theo Luật này cùng pháp luật hình sự và pháp luật về phòng, chống khủng bố.',
+          'Khoản 2 Điều 25 — mức giao dịch có giá trị lớn phải báo cáo do Thủ tướng Chính phủ quy định; ngưỡng cụ thể nằm ở Quyết định 11/2023/QĐ-TTg.',
+          'Điểm cần nhớ: bản gốc Luật này và Nghị định 19/2023/NĐ-CP KHÔNG định danh riêng tài sản ảo / tài sản mã hóa như một đối tượng độc lập — đây là khoảng trống thực tế khi áp dụng cho VASP. Khoảng trống này được bịt từ 01/12/2026 bởi luật sửa đổi thông qua ngày 24/08/2026.'
+        ],
+        nguon:{url:'https://vbpl.vn/TW/Pages/vbpq-toanvan.aspx?ItemID=157721', label:'vbpl.vn — toàn văn'},
+        children:[
+          {
+            id:'lsd26', kind:'doc', code:'Luật sửa đổi 3 luật (2026)',
+            name:'Bổ sung tài sản mã hóa vào diện phòng chống rửa tiền',
+            title:'Luật sửa đổi, bổ sung một số điều của Luật Ngân hàng Nhà nước Việt Nam, Luật Phòng, chống rửa tiền và Luật Các tổ chức tín dụng',
+            role:'Luật sửa đổi — chưa có số hiệu', status:'check',
+            banHanh:'24/08/2026 — Quốc hội khóa XVI, Kỳ họp không thường lệ thứ Nhất (473/476 đại biểu tán thành)',
+            hieuLuc:'01/12/2026',
+            quyMo:'4 điều',
+            chucNang:'Văn bản bịt khoảng trống mà node Luật 14/2022/QH15 ghi nhận: trước luật này, pháp luật phòng chống rửa tiền không định danh riêng tài sản ảo, tài sản mã hóa nên tổ chức cung cấp dịch vụ tài sản mã hóa không thuộc nhóm đối tượng báo cáo. Vì sửa cùng lúc ba luật, đây là node giao giữa nhánh Tài sản mã hóa và nhánh Sandbox ngân hàng & fintech — nó chạm cả Luật 32/2024/QH15.',
+            dieuKhoan:[
+              'Bổ sung "dịch vụ tài sản mã hóa" vào diện phòng, chống rửa tiền — tổ chức cung cấp dịch vụ tài sản mã hóa trở thành đối tượng báo cáo, phải báo cáo giao dịch đáng ngờ cho Ngân hàng Nhà nước Việt Nam.',
+              'Quy định 15 dấu hiệu đáng ngờ riêng cho lĩnh vực tài sản mã hóa: chia nhỏ giao dịch để tránh ngưỡng báo cáo; nhiều giao dịch giá trị lớn trong thời gian ngắn; chuyển đổi giữa các loại tài sản mã hóa không có mục đích rõ ràng; sử dụng công cụ ẩn danh hoặc trộn giao dịch; giao dịch từ địa chỉ liên quan hoạt động bất hợp pháp; khách hàng từ chối cung cấp tài liệu nhận biết.',
+              'Điều chỉnh tiêu chí xác định chủ sở hữu hưởng lợi; quy định kiểm tra, giám sát hoạt động phòng chống rửa tiền theo nguyên tắc dựa trên rủi ro.',
+              'Bổ sung khoản 3 Điều 59 Luật Ngân hàng Nhà nước Việt Nam về trách nhiệm thanh tra, giám sát của Ngân hàng Nhà nước đối với các đối tượng thanh tra, giám sát.'
+            ],
+            nguon:{url:'https://baochinhphu.vn/quoc-hoi-thong-luat-sua-doi-bo-sung-mot-so-dieu-cua-3-luat-ve-ngan-hang-phong-chong-rua-tien-cac-to-chuc-tin-dung-102260824143321215.htm', label:'Báo Chính phủ — tin thông qua luật'},
+            note:'KHÔNG viện dẫn số hiệu — luật mới thông qua ngày 24/08/2026, chưa công bố số hiệu chính thức. Luật thuộc Quốc hội khóa XVI nên hậu tố nhiều khả năng là QH16, nhưng điểm này chưa xác minh được. Danh mục 15 dấu hiệu đáng ngờ lấy từ báo chí, chưa đối chiếu toàn văn. Tra Công báo hoặc vbpl.vn để lấy số hiệu và bản gốc trước khi dùng.'
+          },
+          {
+            id:'nd19', kind:'doc', code:'NĐ 19/2023/NĐ-CP',
+            name:'Quy định chi tiết Luật Phòng, chống rửa tiền',
+            title:'Nghị định số 19/2023/NĐ-CP quy định chi tiết một số điều của Luật Phòng, chống rửa tiền',
+            role:'Nghị định hướng dẫn', status:'ok',
+            banHanh:'28/04/2023 — Chính phủ (TM. Chính phủ, KT. Thủ tướng, Phó Thủ tướng Lê Minh Khái)',
+            hieuLuc:'28/04/2023 — kể từ ngày ký; riêng mức giá trị giao dịch tại điểm b khoản 1, khoản 2 và khoản 4 Điều 6 có hiệu lực từ 01/12/2023 (Điều 13)',
+            quyMo:'4 chương, 14 điều',
+            chucNang:'Cụ thể hóa nghĩa vụ tuân thủ: nguyên tắc và phương pháp đánh giá rủi ro quốc gia về rửa tiền, quy trình nhận biết khách hàng, tiêu chí xác định chủ sở hữu hưởng lợi, cùng cơ chế thu thập, trao đổi và chuyển giao thông tin. Đây là lớp nghị định mà bộ phận tuân thủ đọc cùng với Thông tư 09/2023/TT-NHNN.',
+            dieuKhoan:[
+              'Điều 1 — phạm vi: nguyên tắc, tiêu chí, phương pháp đánh giá rủi ro quốc gia về rửa tiền; nhận biết khách hàng; tiêu chí xác định chủ sở hữu hưởng lợi; giao dịch có giá trị lớn bất thường hoặc phức tạp; cơ quan nhà nước có thẩm quyền tiếp nhận thông tin, báo cáo; căn cứ đề nghi ngờ giao dịch thuộc Danh sách đen; cơ quan tiếp nhận báo cáo trì hoãn giao dịch.',
+              'Điều 2 — đối tượng áp dụng: tổ chức tài chính; tổ chức, cá nhân kinh doanh ngành, nghề phi tài chính có liên quan.',
+              'Điều 7 — chủ sở hữu hưởng lợi của khách hàng là tổ chức: cá nhân thực tế nắm giữ trực tiếp hoặc gián tiếp từ 25% vốn điều lệ trở lên, hoặc cá nhân cuối cùng có quyền chi phối.',
+              'Điều 8 — phân biệt giao dịch có giá trị lớn bất thường (không tương xứng thu nhập hoặc mức giao dịch thường xuyên) với giao dịch phức tạp (không phù hợp quy mô, loại hình, tần suất trong cùng ngành).',
+              'Khoản 3 Điều 13 — thay thế Nghị định 116/2013/NĐ-CP và Nghị định 87/2019/NĐ-CP.'
+            ],
+            nguon:{url:'https://vanban.chinhphu.vn/?pageid=27160&docid=207830&classid=1&typegroupid=4', label:'vanban.chinhphu.vn — bản ký số'}
+          },
+          {
+            id:'tt09', kind:'doc', code:'TT 09/2023/TT-NHNN',
+            name:'Hướng dẫn chế độ báo cáo phòng chống rửa tiền',
+            title:'Thông tư số 09/2023/TT-NHNN hướng dẫn thực hiện một số quy định về phòng, chống rửa tiền',
+            role:'Thông tư hướng dẫn', status:'ok',
+            banHanh:'28/07/2023 — Ngân hàng Nhà nước Việt Nam (KT. Thống đốc, Phó Thống đốc Phạm Tiến Dũng)',
+            hieuLuc:'28/07/2023 — riêng khoản 2 Điều 5, Điều 6, Điều 9 và mẫu báo cáo giao dịch đáng ngờ tại Phụ lục II có hiệu lực từ 01/12/2023 (Điều 11)',
+            quyMo:'12 điều + Phụ lục I và Phụ lục II',
+            chucNang:'Lớp vận hành thực tế mà bộ phận tuân thủ dùng hằng ngày: chế độ báo cáo, biểu mẫu, quy trình gửi báo cáo giao dịch đáng ngờ và giao dịch giá trị lớn; quy định nội bộ, đào tạo, kiểm toán nội bộ và lưu trữ hồ sơ. Đây là văn bản chứa các ngưỡng báo cáo chuyển tiền điện tử — con số cụ thể quyết định giao dịch nào phải lên hệ thống.',
+            dieuKhoan:[
+              'Điều 5 — 11 nhóm nội dung bắt buộc của quy định nội bộ về phòng, chống rửa tiền; đối tượng báo cáo phải gửi quy định nội bộ cho Cơ quan phòng chống rửa tiền thuộc NHNN trong 30 ngày kể từ ngày ban hành hoặc sửa đổi.',
+              'Điều 6 — chế độ báo cáo giao dịch có giá trị lớn phải báo cáo (theo Phụ lục I nếu chưa có hệ thống công nghệ thông tin tương thích).',
+              'Điều 7 — báo cáo giao dịch đáng ngờ theo Phụ lục II; nghĩa vụ báo cáo KHÔNG phụ thuộc vào lượng tiền giao dịch của khách hàng hay việc giao dịch đã hoàn thành hay chưa.',
+              'Điều 9 — ngưỡng báo cáo giao dịch chuyển tiền điện tử: trong nước từ 500.000.000 (năm trăm triệu) đồng trở lên; quốc tế từ 1.000 (một nghìn) đô la Mỹ trở lên hoặc ngoại tệ khác có giá trị tương đương.',
+              'Khoản 2 Điều 10 — thời hạn gửi báo cáo dữ liệu điện tử: trước 16 giờ ngày làm việc tiếp theo ngay sau ngày phát sinh giao dịch.',
+              'Khoản 3 Điều 11 — thay thế Thông tư 35/2013/TT-NHNN, Thông tư 31/2014/TT-NHNN và Thông tư 20/2019/TT-NHNN.'
+            ],
+            nguon:{url:'https://vanban.chinhphu.vn/?pageid=27160&docid=208451&classid=1&orggroupid=4', label:'vanban.chinhphu.vn — bản ký số'}
+          },
+          {
+            id:'qd11', kind:'doc', code:'QĐ 11/2023/QĐ-TTg',
+            name:'Mức giao dịch giá trị lớn phải báo cáo',
+            title:'Quyết định số 11/2023/QĐ-TTg quy định mức giao dịch có giá trị lớn phải báo cáo',
+            role:'Quyết định của Thủ tướng', status:'ok',
+            banHanh:'27/04/2023 — Thủ tướng Chính phủ (KT. Thủ tướng, Phó Thủ tướng Lê Minh Khái)',
+            hieuLuc:'01/12/2023 — thay thế Quyết định 20/2013/QĐ-TTg ngày 18/04/2013',
+            quyMo:'4 điều',
+            chucNang:'Đặt ngưỡng định lượng cho nghĩa vụ báo cáo — con số cụ thể quyết định giao dịch nào phải báo cáo lên đơn vị tình báo tài chính. Văn bản rất ngắn nhưng là mốc phải nhớ chính xác vì nó quyết định khối lượng báo cáo hằng ngày của mọi tổ chức tài chính.',
+            dieuKhoan:[
+              'Điều 1 — phạm vi: mức giao dịch có giá trị lớn phải báo cáo Ngân hàng Nhà nước Việt Nam theo khoản 2 Điều 25 Luật Phòng, chống rửa tiền.',
+              'Điều 2 — đối tượng: tổ chức tài chính; tổ chức, cá nhân kinh doanh ngành nghề phi tài chính có liên quan theo khoản 1 và khoản 2 Điều 4 Luật Phòng, chống rửa tiền.',
+              'Điều 3 — mức giao dịch có giá trị lớn phải báo cáo là từ 400.000.000 (bốn trăm triệu) đồng trở lên.'
+            ],
+            nguon:{url:'https://vanban.chinhphu.vn/?pageid=27160&docid=207824', label:'vanban.chinhphu.vn — bản ký số'}
+          }
+        ]
+      }
+    ]
+  },
+
+  /* ─────────────────── NHÁNH 4 ─────────────────── */
+  {
+    id:'b4', kind:'branch', color:'c4', side:'L',
+    title:'Trung tâm tài chính quốc tế',
+    role:'Trụ 4 — đặc khu tài chính',
+    chucNang:'Khác về bản chất so với ba trụ kia: đây không phải cơ chế thử nghiệm một sản phẩm mà là một không gian pháp lý riêng với cơ chế, chính sách đặc thù. Cấu trúc gồm nghị quyết nền của Quốc hội, hệ thống nghị định hướng dẫn (dự kiến 08 nghị định) và các quyết định lập bộ máy điều hành.',
+    children:[
+      {
+        id:'nq222', kind:'doc', code:'NQ 222/2025/QH15',
+        name:'Trung tâm tài chính quốc tế tại Việt Nam',
+        title:'Nghị quyết số 222/2025/QH15 của Quốc hội về Trung tâm tài chính quốc tế tại Việt Nam',
+        role:'Nghị quyết nền — trục chính của nhánh', status:'ok',
+        banHanh:'27/06/2025 — Quốc hội (ký: Trần Thanh Mẫn)',
+        hieuLuc:'01/09/2025',
+        chucNang:'Văn bản cốt lõi cần nhớ của nhánh này. Quy định việc thành lập, hoạt động, quản lý, giám sát và các cơ chế, chính sách đặc thù áp dụng cho Trung tâm tài chính quốc tế tại Việt Nam.',
+        dieuKhoan:[
+          'Điều 8 và Điều 9 — thành lập Trung tâm (được Nghị định 323/2025/NĐ-CP quy định chi tiết).',
+          'Điều 13 — các sàn giao dịch, nền tảng giao dịch mới. Đây là điểm giao với nhánh Tài sản mã hóa: định hướng phát triển hệ sinh thái tài chính hiện đại gồm sàn giao dịch mới, dịch vụ fintech và hệ sinh thái tư vấn đạt chuẩn quốc tế.',
+          'Điều 35 — điều khoản thi hành: Chính phủ sơ kết và báo cáo Quốc hội sau 05 năm; chậm nhất ngày 30/03/2034 báo cáo kết quả và đề xuất ban hành Luật về Trung tâm tài chính quốc tế.',
+          'Dự án, hoạt động đã được chấp thuận và hưởng ưu đãi trong thời gian Nghị quyết có hiệu lực, nếu chưa kết thúc khi Nghị quyết hết hiệu lực thì tiếp tục được hưởng ưu đãi đến khi kết thúc.'
+        ],
+        nguon:{url:'https://vanban.chinhphu.vn/?pageid=27160&docid=214392', label:'vanban.chinhphu.vn — toàn văn'},
+        children:[
+          {
+            id:'nd323', kind:'doc', code:'NĐ 323/2025/NĐ-CP',
+            name:'Thành lập Trung tâm tài chính quốc tế',
+            title:'Nghị định số 323/2025/NĐ-CP về thành lập Trung tâm tài chính quốc tế tại Việt Nam',
+            role:'Nghị định hướng dẫn', status:'ok',
+            banHanh:'18/12/2025 — Chính phủ (TM. Chính phủ, Thủ tướng Phạm Minh Chính)',
+            hieuLuc:'18/12/2025 — kể từ ngày ban hành (khoản 1 Điều 22)',
+            quyMo:'7 chương, 23 điều + Phụ lục danh mục ngành, nghề ưu tiên',
+            chucNang:'Nghị định đầu tiên trong hệ thống hướng dẫn Nghị quyết 222: quy định chi tiết và hướng dẫn thi hành Điều 8 và Điều 9 về việc thành lập Trung tâm tài chính quốc tế. Phụ lục của nghị định này là nơi nhánh Trung tâm tài chính quốc tế chạm vào cả nhánh Tài sản mã hóa lẫn nhánh Sandbox — đọc kỹ mục 3 và mục 4 của Phụ lục.',
+            dieuKhoan:[
+              'Điều 2 — đối tượng áp dụng: thành viên Trung tâm; nhà đầu tư, tổ chức, cá nhân liên quan đến hoạt động đầu tư kinh doanh và giải quyết tranh chấp; Cơ quan điều hành, Cơ quan giám sát, Cơ quan giải quyết tranh chấp; và các cơ quan, tổ chức, cá nhân liên quan khác.',
+              'Ba cơ quan của Trung tâm — điều hành, giám sát, giải quyết tranh chấp — là cấu trúc đáng nhớ nhất của nghị định này.',
+              'Khoản 1 Điều 3 — Trung tâm là MỘT thực thể pháp lý thống nhất, hoạt động tại hai địa điểm: Thành phố Hồ Chí Minh và thành phố Đà Nẵng. Mọi chuẩn mực, quy chế, quy trình, biểu mẫu nghiệp vụ và tiêu chuẩn cấp phép ban hành thống nhất, áp dụng đồng thời tại hai địa điểm.',
+              'Khoản 2 Điều 3 — tên chính thức: Viet Nam International Financial Center in Ho Chi Minh City (VIFC-HCMC) và Viet Nam International Financial Center in Da Nang City (VIFC-DN).',
+              'Khoản 4 Điều 3 — định hướng Đà Nẵng gắn với hệ sinh thái đổi mới sáng tạo, công nghệ số và tài chính bền vững; tạo nền tảng thử nghiệm có kiểm soát cho các mô hình tài chính mới, tiên phong mở rộng sản phẩm tài sản số và thanh toán số.',
+              'Phụ lục mục 3 điểm d — thí điểm sandbox đối với các sản phẩm tài chính thương mại ứng dụng blockchain.',
+              'Phụ lục mục 4 — fintech và đổi mới sáng tạo: điểm a hạ tầng và dịch vụ tài sản số, tài chính phi tập trung · điểm c giải pháp RegTech gồm phòng chống rửa tiền, tài trợ khủng bố và xác minh khách hàng · điểm đ nghiên cứu sản phẩm tài chính mới gồm token hóa tài sản và stablecoin.',
+              'Điều 21 — phân vai liên ngành: Bộ Tài chính chủ trì; Bộ Công an lo hạ tầng dữ liệu và an ninh thông tin; Bộ Quốc phòng lo an ninh quốc phòng; Ngân hàng Nhà nước cùng các bộ phối hợp với Cơ quan giám sát trong thanh tra, kiểm tra.'
+            ],
+            nguon:{url:'https://vanban.chinhphu.vn/?pageid=27160&docid=216242', label:'vanban.chinhphu.vn — bản ký số'}
+          },
+          {
+            id:'qd2755', kind:'doc', code:'QĐ 2755/QĐ-TTg',
+            name:'Hội đồng điều hành Trung tâm tài chính quốc tế',
+            title:'Quyết định số 2755/QĐ-TTg về thành lập Hội đồng điều hành Trung tâm tài chính quốc tế tại Việt Nam',
+            role:'Quyết định — tổ chức bộ máy', status:'ok',
+            banHanh:'18/12/2025 — Thủ tướng Chính phủ (ký: Phạm Minh Chính)',
+            hieuLuc:'18/12/2025 — kể từ ngày ký ban hành (Điều 3)',
+            quyMo:'3 điều',
+            chucNang:'Lập bộ máy điều hành trên thực tế, ban hành cùng ngày với Nghị định 323/2025/NĐ-CP. Node này giúp bạn nhớ rằng nhánh Trung tâm tài chính quốc tế đã bước từ thể chế sang vận hành: đã có người chịu trách nhiệm, có con dấu, có thẩm quyền ban hành Quy chế hoạt động.',
+            dieuKhoan:[
+              'Điều 1 — Chủ tịch Hội đồng điều hành: Phó Thủ tướng Thường trực Chính phủ Nguyễn Hòa Bình.',
+              'Điều 1 — 04 Phó Chủ tịch: Bộ trưởng Bộ Tài chính Nguyễn Văn Thắng · Thống đốc Ngân hàng Nhà nước Nguyễn Thị Hồng · Chủ tịch UBND Thành phố Hồ Chí Minh Nguyễn Văn Được · Chủ tịch UBND thành phố Đà Nẵng Phạm Đức Ấn.',
+              'Điều 1 — 04 thành viên là Thứ trưởng các Bộ: Tư pháp, Nội vụ, Công Thương, Nông nghiệp và Môi trường.',
+              'Điều 2 — Hội đồng sử dụng con dấu riêng có hình Quốc huy; ban hành chiến lược, lộ trình, kế hoạch phát triển và Quy chế hoạt động của Trung tâm.',
+              'Điều 2 — cho ý kiến việc bổ nhiệm, miễn nhiệm, bãi nhiệm Chủ tịch Cơ quan điều hành tại hai thành phố; quyết định các vấn đề chưa thống nhất giữa hai Cơ quan điều hành; thành lập Hội đồng tư vấn gồm chuyên gia tài chính, pháp lý trong nước và quốc tế.'
+            ],
+            nguon:{url:'https://chinhphu.vn/?pageid=27160&docid=216225', label:'chinhphu.vn — bản ký số'}
+          },
+          {
+            id:'nd7',  kind:'doc', code:'07 nghị định còn lại',
+            name:'Chưa xác minh được số hiệu',
+            title:'Các nghị định hướng dẫn Nghị quyết 222/2025/QH15 còn lại',
+            role:'Chưa xác minh', status:'draft',
+            banHanh:'chưa xác minh',
+            hieuLuc:'chưa xác minh',
+            chucNang:'Chính phủ dự kiến ban hành 08 nghị định hướng dẫn Nghị quyết 222/2025/QH15 theo trình tự, thủ tục rút gọn. Ngày 04/11/2025 Thủ tướng đã chủ trì phiên họp Chính phủ chuyên đề về các nghị định này. Lần tra cứu chỉ xác minh được 01 trong 08 nghị định (Nghị định 323/2025/NĐ-CP).',
+            dieuKhoan:[],
+            note:'Node giữ chỗ có chủ ý. Số hiệu 07 nghị định còn lại KHÔNG được suy đoán hay tự điền. Khi cần dùng, tra trực tiếp vanban.chinhphu.vn hoặc congbao.chinhphu.vn rồi bổ sung vào khối DATA của file này.'
+          }
+        ]
+      }
+    ]
+  }
+]};
+</script>
+
+<script>
+/* ══════════════════════════════════════════════════════════════════════
+   RENDER — layout cây cân đối 2 chiều, vẽ SVG, thu/mở, pan/zoom, panel
+   ══════════════════════════════════════════════════════════════════════ */
+(function(){
+'use strict';
+
+const SVGNS = 'http://www.w3.org/2000/svg';
+const svg   = document.getElementById('map');
+const stage = document.getElementById('stage');
+const panel = document.getElementById('panel');
+const scrim = document.getElementById('scrim');
+
+const FONT = 'system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
+
+/* ── metrics theo loại node ─────────────────────────────── */
+const M = {
+  root  : {padX:20, padY:16, maxW:210, minW:150, code:null, name:{size:15.5, weight:680, lh:21}},
+  branch: {padX:15, padY:12, maxW:178, minW:120, code:null, name:{size:13.8, weight:660, lh:19}},
+  doc   : {padX:12, padY:10, maxW:172, minW:126,
+           code:{size:12.8, weight:680, lh:17}, name:{size:11.4, weight:400, lh:14.5}}
+};
+const BADGE_H  = 17;
+const H_GAP    = 46;   // khoảng ngang giữa 2 cột
+const V_GAP    = 10;   // khoảng dọc giữa 2 node cùng cha
+const BR_GAP   = 24;   // khoảng dọc giữa 2 nhánh
+
+/* ── đo chữ bằng canvas ─────────────────────────────────── */
+const ctx = document.createElement('canvas').getContext('2d');
+function measure(text, spec){
+  ctx.font = spec.weight + ' ' + spec.size + 'px ' + FONT;
+  return ctx.measureText(text).width;
+}
+function wrap(text, spec, maxW){
+  const words = String(text).split(/\s+/);
+  const lines = [];
+  let cur = '';
+  for (const w of words){
+    const test = cur ? cur + ' ' + w : w;
+    if (cur && measure(test, spec) > maxW){ lines.push(cur); cur = w; }
+    else cur = test;
+  }
+  if (cur) lines.push(cur);
+  return lines;
+}
+
+/* ── badges ─────────────────────────────────────────────── */
+function badgesOf(n){
+  const out = [];
+  if (n.kind !== 'doc') return out;
+  if (n.status === 'draft')      out.push({t:'dự thảo / chưa ban hành', c:'var(--draft)', dash:true});
+  else if (n.status === 'check') out.push({t:'cần đối chiếu',            c:'var(--flag)',  dash:false});
+  if (n.shared)                  out.push({t:'dùng chung',               c:'var(--ink-soft)', dash:false});
+  return out;
+}
+
+/* ── dựng cây: đo kích thước + gán side/color/depth ─────── */
+let ALL = [];
+function build(node, depth, side, color, parent){
+  const m = M[node.kind];
+  const spec = m.name;
+
+  node._depth  = depth;
+  node._side   = node.side || side;
+  node._color  = node.color || color;
+  node._parent = parent || null;
+  node._badges = badgesOf(node);
+
+  const codeSpec = m.code;
+  const codeW = codeSpec && node.code ? measure(node.code, codeSpec) : 0;
+
+  const label = node.kind === 'doc' ? (node.name || '') : node.title;
+  const inner = Math.max(m.minW, Math.min(m.maxW, Math.max(codeW, measure(label, spec)))) ;
+  node._lines = wrap(label, spec, inner);
+
+  let textW = codeW;
+  node._lines.forEach(l => { textW = Math.max(textW, measure(l, spec)); });
+
+  let badgeW = 0;
+  node._badges.forEach(b => { badgeW += measure(b.t, {size:10, weight:500}) + 16 + 5; });
+
+  node.w = Math.max(m.minW, Math.min(m.maxW + 2*m.padX, Math.max(textW, badgeW) + 2*m.padX));
+  node.h = 2*m.padY
+         + (codeSpec && node.code ? codeSpec.lh : 0)
+         + node._lines.length * spec.lh
+         + (node._badges.length ? BADGE_H + 4 : 0);
+
+  if (node.collapsed === undefined) node.collapsed = false;
+  ALL.push(node);
+  (node.children || []).forEach(c => build(c, depth+1, node._side, node._color, node));
+}
+
+/* ── layout ─────────────────────────────────────────────── */
+function visibleChildren(n){ return (n.collapsed || !n.children) ? [] : n.children; }
+
+function assignY(node, cursor){
+  const kids = visibleChildren(node);
+  if (!kids.length){ node.y = cursor + node.h/2; return cursor + node.h + V_GAP; }
+  let c = cursor;
+  kids.forEach(k => { c = assignY(k, c); });
+  node.y = (kids[0].y + kids[kids.length-1].y) / 2;
+  return c;
+}
+
+function collectVisible(node, out){
+  out.push(node);
+  visibleChildren(node).forEach(k => collectVisible(k, out));
+  return out;
+}
+
+function layout(){
+  const root = DATA;
+  const right = root.children.filter(b => b._side === 'R');
+  const left  = root.children.filter(b => b._side === 'L');
+
+  function side(branches, dir){
+    // 1. trục dọc
+    let cur = 0;
+    branches.forEach((b, i) => { cur = assignY(b, cur); if (i < branches.length-1) cur += BR_GAP; });
+    const nodes = branches.reduce((a,b) => collectVisible(b, a), []);
+    if (!nodes.length) return;
+    let top = Infinity, bot = -Infinity;
+    nodes.forEach(n => { top = Math.min(top, n.y - n.h/2); bot = Math.max(bot, n.y + n.h/2); });
+    const shift = -(top + bot)/2;
+    nodes.forEach(n => { n.y += shift; });
+
+    // 2. trục ngang — mỗi độ sâu là một cột, node căn lề phía trong
+    const colW = {};
+    nodes.forEach(n => { colW[n._depth] = Math.max(colW[n._depth] || 0, n.w); });
+    const start = {};
+    let x = root.w/2 + H_GAP;
+    Object.keys(colW).map(Number).sort((a,b)=>a-b).forEach(d => {
+      start[d] = x; x += colW[d] + H_GAP;
+    });
+    nodes.forEach(n => {
+      n.x = dir > 0 ? start[n._depth] + n.w/2 : -(start[n._depth] + n.w/2);
+    });
+  }
+
+  side(right, +1);
+  side(left, -1);
+  root.x = 0; root.y = 0;
+}
+
+/* ── vẽ ─────────────────────────────────────────────────── */
+const gPan   = document.createElementNS(SVGNS,'g');
+const gEdges = document.createElementNS(SVGNS,'g');
+const gNodes = document.createElementNS(SVGNS,'g');
+gPan.appendChild(gEdges); gPan.appendChild(gNodes);
+svg.appendChild(gPan);
+
+const nodeEls = new Map();
+
+function edgePath(p, c){
+  const dir = c.x >= 0 ? 1 : -1;
+  const x1 = p.id === 'root' ? p.x + dir*p.w/2 : p.x + dir*p.w/2;
+  const y1 = p.y;
+  const x2 = c.x - dir*c.w/2;
+  const y2 = c.y;
+  const mx = (x1 + x2)/2;
+  return 'M'+x1+','+y1+' C'+mx+','+y1+' '+mx+','+y2+' '+x2+','+y2;
+}
+
+function draw(){
+  const vis = collectVisible(DATA, []);
+  const visIds = new Set(vis.map(n => n.id));
+
+  /* edges — vẽ lại toàn bộ, nhẹ và không cần animate */
+  gEdges.textContent = '';
+  vis.forEach(p => {
+    visibleChildren(p).forEach(c => {
+      const path = document.createElementNS(SVGNS,'path');
+      path.setAttribute('class','edge');
+      path.setAttribute('d', edgePath(p, c));
+      path.setAttribute('stroke', 'var(--'+(c._color||'c1')+')');
+      path.setAttribute('stroke-width', c._depth <= 1 ? 2 : 1.4);
+      path.setAttribute('stroke-opacity', c._depth <= 1 ? .5 : .38);
+      gEdges.appendChild(path);
+    });
+  });
+
+  /* nodes — tái sử dụng element theo id để transform có transition */
+  nodeEls.forEach((el, id) => { if (!visIds.has(id)){ el.remove(); nodeEls.delete(id); } });
+
+  vis.forEach(n => {
+    let g = nodeEls.get(n.id);
+    if (!g){
+      g = buildNodeEl(n);
+      nodeEls.set(n.id, g);
+      gNodes.appendChild(g);
+      g.style.transform = 'translate('+n.x+'px,'+n.y+'px)';
+    } else {
+      g.style.transform = 'translate('+n.x+'px,'+n.y+'px)';
+      const caret = g.querySelector('.caret');
+      if (caret) caret.textContent = n.collapsed ? '+' : '−';
+    }
+  });
+}
+
+function buildNodeEl(n){
+  const m = M[n.kind];
+  const col = 'var(--'+(n._color||'c1')+')';
+  const g = document.createElementNS(SVGNS,'g');
+  g.setAttribute('class','node');
+  g.setAttribute('tabindex','0');
+  g.setAttribute('role','button');
+
+  const rect = document.createElementNS(SVGNS,'rect');
+  rect.setAttribute('class','box');
+  rect.setAttribute('x', -n.w/2); rect.setAttribute('y', -n.h/2);
+  rect.setAttribute('width', n.w); rect.setAttribute('height', n.h);
+  rect.setAttribute('rx', n.kind === 'root' ? 13 : 9);
+  if (n.kind === 'root'){
+    rect.setAttribute('fill','var(--ink)'); rect.setAttribute('stroke','none');
+  } else if (n.kind === 'branch'){
+    rect.setAttribute('fill', col); rect.setAttribute('stroke','none');
+  } else {
+    rect.setAttribute('fill','#fff');
+    rect.setAttribute('stroke', col);
+    rect.setAttribute('stroke-width', 1.5);
+    if (n.status === 'draft'){ rect.setAttribute('stroke','var(--draft)'); rect.setAttribute('stroke-dasharray','5 3'); }
+  }
+  g.appendChild(rect);
+
+  const txtCol = (n.kind === 'root' || n.kind === 'branch') ? '#FBF8F1' : 'var(--ink)';
+  let y = -n.h/2 + m.padY;
+
+  if (m.code && n.code){
+    const t = document.createElementNS(SVGNS,'text');
+    t.setAttribute('x', -n.w/2 + m.padX);
+    t.setAttribute('y', y + m.code.lh*0.72);
+    t.setAttribute('font-family', FONT);
+    t.setAttribute('font-size', m.code.size);
+    t.setAttribute('font-weight', m.code.weight);
+    t.setAttribute('fill', n.status === 'draft' ? 'var(--draft)' : col);
+    t.textContent = n.code;
+    g.appendChild(t);
+    y += m.code.lh;
+  }
+
+  const spec = m.name;
+  n._lines.forEach(line => {
+    const t = document.createElementNS(SVGNS,'text');
+    t.setAttribute('x', -n.w/2 + m.padX);
+    t.setAttribute('y', y + spec.lh*0.74);
+    t.setAttribute('font-family', FONT);
+    t.setAttribute('font-size', spec.size);
+    t.setAttribute('font-weight', spec.weight);
+    t.setAttribute('fill', n.kind === 'doc' ? 'var(--ink-mid)' : txtCol);
+    t.textContent = line;
+    g.appendChild(t);
+    y += spec.lh;
+  });
+
+  if (n._badges.length){
+    let bx = -n.w/2 + m.padX;
+    y += 4;
+    n._badges.forEach(b => {
+      const w = measure(b.t, {size:10, weight:500}) + 15;
+      const r = document.createElementNS(SVGNS,'rect');
+      r.setAttribute('x', bx); r.setAttribute('y', y);
+      r.setAttribute('width', w); r.setAttribute('height', BADGE_H - 2);
+      r.setAttribute('rx', (BADGE_H-2)/2);
+      r.setAttribute('fill','none');
+      r.setAttribute('stroke', b.c);
+      r.setAttribute('stroke-width','1');
+      if (b.dash) r.setAttribute('stroke-dasharray','3 2');
+      g.appendChild(r);
+
+      const t = document.createElementNS(SVGNS,'text');
+      t.setAttribute('x', bx + w/2); t.setAttribute('y', y + (BADGE_H-2)/2 + 3.4);
+      t.setAttribute('text-anchor','middle');
+      t.setAttribute('font-family', FONT);
+      t.setAttribute('font-size','10'); t.setAttribute('font-weight','500');
+      t.setAttribute('fill', b.c);
+      t.textContent = b.t;
+      g.appendChild(t);
+      bx += w + 5;
+    });
+  }
+
+  /* thân node → mở panel chi tiết (root → canh lại khung) */
+  const activate = () => { if (n.kind === 'root') fit(); else openPanel(n); };
+  g.addEventListener('click', e => { if (dragged) return; e.stopPropagation(); activate(); });
+  g.addEventListener('keydown', e => {
+    if (e.key === 'Enter' || e.key === ' '){ e.preventDefault(); activate(); }
+  });
+
+  /* caret riêng → chỉ thu/mở, không mở panel */
+  if (n.children && n.children.length && n.kind !== 'root'){
+    const dir = n.x >= 0 ? 1 : -1;
+    const cx = dir * (n.w/2);
+    const hit = document.createElementNS(SVGNS,'g');
+    hit.setAttribute('class','caret-hit');
+    hit.style.cursor = 'pointer';
+
+    const c = document.createElementNS(SVGNS,'circle');
+    c.setAttribute('cx', cx); c.setAttribute('cy', 0); c.setAttribute('r', 9);
+    c.setAttribute('fill','var(--canvas)');
+    c.setAttribute('stroke', n.kind === 'branch' ? col : 'var(--line)');
+    c.setAttribute('stroke-width','1.3');
+    hit.appendChild(c);
+
+    const t = document.createElementNS(SVGNS,'text');
+    t.setAttribute('class','caret');
+    t.setAttribute('x', cx); t.setAttribute('y', 3.8);
+    t.setAttribute('text-anchor','middle');
+    t.setAttribute('font-family', FONT);
+    t.setAttribute('font-size','12'); t.setAttribute('font-weight','700');
+    t.setAttribute('fill', n.kind === 'branch' ? col : 'var(--ink-soft)');
+    t.setAttribute('pointer-events','none');
+    t.textContent = n.collapsed ? '+' : '−';
+    hit.appendChild(t);
+
+    hit.addEventListener('click', e => {
+      if (dragged) return;
+      e.stopPropagation();
+      toggle(n);
+    });
+    g.appendChild(hit);
+  }
+  return g;
+}
+
+function toggle(n){
+  if (!n.children || !n.children.length) return;
+  n.collapsed = !n.collapsed;
+  layout(); draw();
+}
+
+/* ── pan / zoom ─────────────────────────────────────────── */
+const vt = {x:0, y:0, k:1};
+function applyVT(){ gPan.setAttribute('transform', 'translate('+vt.x+','+vt.y+') scale('+vt.k+')'); }
+const clamp = (v,a,b) => Math.max(a, Math.min(b, v));
+
+function fit(){
+  const vis = collectVisible(DATA, []);
+  let x0=Infinity, x1=-Infinity, y0=Infinity, y1=-Infinity;
+  vis.forEach(n => {
+    x0 = Math.min(x0, n.x - n.w/2); x1 = Math.max(x1, n.x + n.w/2);
+    y0 = Math.min(y0, n.y - n.h/2); y1 = Math.max(y1, n.y + n.h/2);
+  });
+  const pad = 44;
+  const W = stage.clientWidth, H = stage.clientHeight;
+  vt.k = clamp(Math.min((W-2*pad)/(x1-x0), (H-2*pad)/(y1-y0)), .4, 1);
+  vt.x = W/2 - ((x0+x1)/2) * vt.k;
+  vt.y = H/2 - ((y0+y1)/2) * vt.k;
+  applyVT();
+}
+
+/* KHÔNG dùng svg.setPointerCapture(): pointer capture kéo cả các compatibility
+   mouse event (mouseup / click) về chính phần tử <svg>, nên listener click gắn
+   trên từng node <g> và trên caret sẽ không bao giờ chạy → không mở được panel.
+   Thay bằng theo dõi pointermove/pointerup ở cấp window: vẫn kéo được khi con
+   trỏ ra ngoài canvas mà không làm sai target của click. */
+let dragged = false, dragging = false, last = null, dragId = null;
+svg.addEventListener('pointerdown', e => {
+  if (e.button !== 0 && e.pointerType === 'mouse') return;
+  dragging = true; dragged = false; dragId = e.pointerId;
+  last = {x:e.clientX, y:e.clientY};
+  svg.classList.add('grabbing');
+});
+window.addEventListener('pointermove', e => {
+  if (!dragging || e.pointerId !== dragId) return;
+  const dx = e.clientX - last.x, dy = e.clientY - last.y;
+  if (Math.abs(dx) + Math.abs(dy) > 3) dragged = true;
+  vt.x += dx; vt.y += dy; last = {x:e.clientX, y:e.clientY};
+  applyVT();
+});
+function endDrag(e){
+  if (!dragging || (e && e.pointerId !== dragId)) return;
+  dragging = false; dragId = null; svg.classList.remove('grabbing');
+  /* click được dispatch sau pointerup/mouseup trong cùng task, nên reset cờ
+     bằng setTimeout để handler click vẫn đọc được trạng thái đã kéo hay chưa */
+  setTimeout(() => { dragged = false; }, 0);
+}
+window.addEventListener('pointerup', endDrag);
+window.addEventListener('pointercancel', endDrag);
+svg.addEventListener('wheel', e => {
+  e.preventDefault();
+  const r = svg.getBoundingClientRect();
+  const mx = e.clientX - r.left, my = e.clientY - r.top;
+  const k2 = clamp(vt.k * Math.exp(-e.deltaY * 0.0016), .4, 2.5);
+  vt.x = mx - (mx - vt.x) * (k2/vt.k);
+  vt.y = my - (my - vt.y) * (k2/vt.k);
+  vt.k = k2; applyVT();
+}, {passive:false});
+
+function zoomBy(f){
+  const W = stage.clientWidth/2, H = stage.clientHeight/2;
+  const k2 = clamp(vt.k*f, .4, 2.5);
+  vt.x = W - (W - vt.x) * (k2/vt.k);
+  vt.y = H - (H - vt.y) * (k2/vt.k);
+  vt.k = k2; applyVT();
+}
+document.getElementById('zin').onclick  = () => zoomBy(1.22);
+document.getElementById('zout').onclick = () => zoomBy(1/1.22);
+document.getElementById('zfit').onclick = () => fit();
+
+/* ── panel chi tiết ─────────────────────────────────────── */
+const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+
+function openPanel(n){
+  const col = 'var(--'+(n._color||'c1')+')';
+  const rows = [];
+  if (n.role)     rows.push(['Vai trò',   n.role]);
+  if (n.banHanh)  rows.push(['Ban hành',  n.banHanh]);
+  if (n.hieuLuc)  rows.push(['Hiệu lực',  n.hieuLuc]);
+  if (n.quyMo)    rows.push(['Quy mô',    n.quyMo]);
+
+  const badges = badgesOf(n).map(b =>
+    '<span class="tag" style="color:'+b.c+(b.dash?';border-style:dashed':'')+'">'+esc(b.t)+'</span>'
+  ).join('');
+
+  panel.innerHTML =
+    '<div class="p-head" style="border-bottom-color:var(--line)">'
+      + '<button class="p-close" aria-label="Đóng">×</button>'
+      + '<div class="kicker" style="color:'+col+'">'
+        + esc(n.kind === 'branch' ? (n.role || 'Nhánh') : 'Văn bản pháp lý')
+      + '</div>'
+      + '<h2 class="code" style="color:'+(n.kind==='doc'?col:'var(--ink)')+'">'
+        + esc(n.kind === 'doc' ? n.code : n.title) + '</h2>'
+      + (n.kind === 'doc' ? '<p class="name">'+esc(n.title)+'</p>' : '')
+      + (badges ? '<div style="margin-top:9px">'+badges+'</div>' : '')
+    + '</div>'
+    + '<div class="p-body">'
+      + (rows.length
+          ? '<dl>'+rows.map(r => '<div class="p-row"><dt>'+esc(r[0])+'</dt><dd>'+esc(r[1])+'</dd></div>').join('')+'</dl>'
+          : '')
+      + '<p class="p-sec">Chức năng</p>'
+      + '<p class="p-fn">'+esc(n.chucNang || '—')+'</p>'
+      + (n.dieuKhoan && n.dieuKhoan.length
+          ? '<p class="p-sec">Nội dung / điều khoản đáng nhớ</p><ul class="p-list">'
+            + n.dieuKhoan.map(d => '<li>'+esc(d)+'</li>').join('') + '</ul>'
+          : '')
+      + (n.nguon
+          ? '<p class="p-sec">Nguồn gốc</p><a class="p-src" href="'+esc(n.nguon.url)
+            + '" target="_blank" rel="noopener">↗ '+esc(n.nguon.label)+'</a>'
+          : '')
+      + (n.note ? '<p class="p-note"><strong>Lưu ý xác minh:</strong> '+esc(n.note)+'</p>' : '')
+    + '</div>';
+
+  panel.hidden = false; scrim.hidden = false;
+  panel.querySelector('.p-close').onclick = closePanel;
+  panel.querySelector('.p-close').focus();
+}
+function closePanel(){ panel.hidden = true; scrim.hidden = true; }
+scrim.addEventListener('click', closePanel);
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closePanel(); });
+
+/* ── khởi động ──────────────────────────────────────────── */
+build(DATA, 0, 'R', null, null);
+layout();
+draw();
+
+/* fit() phụ thuộc kích thước #stage — chỉ đáng tin sau khi layout flex ổn định,
+   nên gọi lại qua rAF và sau 'load' thay vì gọi ngay lúc parse xong. */
+fit();
+requestAnimationFrame(() => requestAnimationFrame(fit));
+window.addEventListener('load', () => setTimeout(fit, 0));
+
+let rz;
+window.addEventListener('resize', () => { clearTimeout(rz); rz = setTimeout(fit, 140); });
+})();
+</script>
+</body>
+</html>

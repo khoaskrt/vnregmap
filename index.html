@@ -18,6 +18,7 @@
     --c2:#0F8C7F;  /* Sandbox ngân hàng-fintech */
     --c3:#C2721C;  /* Tài sản mã hóa            */
     --c4:#8A4A7D;  /* Trung tâm tài chính QT    */
+    --c5:#A03050;  /* Thanh toán xuyên biên giới*/
 
     --flag:#C2721C;
     --draft:#9A938A;
@@ -164,6 +165,7 @@
     <span><i style="background:var(--c2)"></i> Sandbox ngân hàng &amp; fintech</span>
     <span><i style="background:var(--c3)"></i> Tài sản mã hóa</span>
     <span><i style="background:var(--c4)"></i> Trung tâm tài chính quốc tế</span>
+    <span><i style="background:var(--c5)"></i> Thanh toán xuyên biên giới</span>
   </div>
 </header>
 
@@ -279,6 +281,63 @@ const DATA = {
         ],
         nguon:{url:'https://vanban.chinhphu.vn/?pageid=27160&docid=212952', label:'vanban.chinhphu.vn — bản ký số'},
         note:'Đã đối chiếu bản ký số (193-qh.signed.pdf). Toàn văn Chương II và Chương III về cơ chế tài chính, đấu thầu chưa trích xuất đầy đủ — nếu cần viện dẫn khoản cụ thể, mở lại bản PDF.'
+      },
+      {
+        id:'nq136', kind:'doc', code:'NQ 136/2024/QH15',
+        name:'Chính quyền đô thị & cơ chế đặc thù Đà Nẵng',
+        title:'Nghị quyết số 136/2024/QH15 của Quốc hội về tổ chức chính quyền đô thị và thí điểm một số cơ chế, chính sách đặc thù phát triển thành phố Đà Nẵng',
+        role:'Nghị quyết nền — cơ chế đặc thù địa phương (Đà Nẵng)', status:'check',
+        banHanh:'26/06/2024 — Quốc hội khóa XV, Kỳ họp thứ 7',
+        hieuLuc:'01/01/2025',
+        quyMo:'4 chương, 18 điều, 77 khoản, 159 điểm — 30 cơ chế, chính sách',
+        chucNang:'Nhánh phụ của sandbox công nghệ số: thay vì áp dụng cơ chế thử nghiệm chung theo Luật 93/2025/QH15 và Luật 71/2025/QH15, Đà Nẵng có thẩm quyền thử nghiệm riêng do chính Nghị quyết chính quyền đô thị của thành phố trao — sớm hơn cả hai luật kể trên gần một năm. Khoản 2-5 Điều 14 là cơ sở trực tiếp cho toàn bộ chuỗi văn bản Đà Nẵng thử nghiệm giải pháp công nghệ mới.',
+        dieuKhoan:[
+          'Điều 14 — cơ chế đặc thù về quản lý khoa học, công nghệ, đổi mới sáng tạo và chuyển đổi số: khoản 2 giao UBND thành phố quyết định việc thử nghiệm có kiểm soát (sandbox) đối với công nghệ, sản phẩm, dịch vụ, mô hình kinh doanh mới trong Khu công nghệ cao, Khu công nghệ thông tin tập trung, Trung tâm hỗ trợ khởi nghiệp đổi mới sáng tạo, không gian đổi mới sáng tạo do ngân sách thành phố đầu tư; điểm a khoản 3 quy định cơ quan hướng dẫn, kiểm soát quá trình thử nghiệm do UBND thành phố quyết định; khoản 4 và khoản 5 đặt quyền hạn, trách nhiệm cụ thể của UBND thành phố và cơ quan hướng dẫn, kiểm soát.',
+          'Đây là điều được Nghị quyết số 55/2024/NQ-HĐND của HĐND thành phố Đà Nẵng dẫn chiếu trực tiếp trong lời nói đầu để ban hành quy định chi tiết trình tự, thủ tục.',
+          'Đang trong quá trình sửa đổi, bổ sung: Chính phủ đã trình Ủy ban Thường vụ Quốc hội xem xét sửa đổi một số điều theo trình tự, thủ tục rút gọn, dự kiến thông qua tại Kỳ họp thứ 10 của Quốc hội.'
+        ],
+        nguon:{url:'https://vanban.chinhphu.vn/?pageid=27160&docid=210674', label:'vanban.chinhphu.vn — toàn văn'},
+        note:'Toàn văn 18 điều chưa được đối chiếu trực tiếp trong lần tra cứu này — nội dung Điều 14 lấy từ trích dẫn nguyên văn trong lời nói đầu Nghị quyết số 55/2024/NQ-HĐND (nguồn cấp hai đáng tin, đã đọc bản ký số) và từ báo chí tổng hợp, chưa mở bản gốc Nghị quyết 136 để đối chiếu đầy đủ số khoản/điểm. Bản đang sửa đổi (dự kiến Kỳ họp thứ 10) chưa ban hành — không suy đoán nội dung sửa đổi.',
+        children:[
+          {
+            id:'nq55dn', kind:'doc', code:'NQ 55/2024/NQ-HĐND',
+            name:'Quy định thử nghiệm có kiểm soát tại Đà Nẵng',
+            title:'Nghị quyết số 55/2024/NQ-HĐND của Hội đồng nhân dân thành phố Đà Nẵng ban hành quy định chi tiết về tiêu chí, điều kiện lựa chọn và trình tự, thủ tục đăng ký, thẩm định, cấp phép thực hiện thử nghiệm có kiểm soát các giải pháp công nghệ mới trên địa bàn thành phố Đà Nẵng',
+            role:'Nghị quyết HĐND — quy định chi tiết trình tự, thủ tục', status:'ok',
+            banHanh:'13/12/2024 — HĐND thành phố Đà Nẵng khóa X, nhiệm kỳ 2021-2026, Kỳ họp thứ 21 (ký: Chủ tịch Ngô Xuân Thắng)',
+            hieuLuc:'01/01/2025 (Điều 2)',
+            quyMo:'3 điều + Quy định chi tiết kèm theo (3 chương, 7 điều) + 6 Phụ lục',
+            chucNang:'Văn bản thủ tục thật của sandbox Đà Nẵng — vai trò tương đương Nghị định 353/2025/NĐ-CP trong nhánh sandbox công nghệ số toàn quốc, nhưng ban hành sớm hơn và áp dụng riêng cho địa bàn thành phố. Quyết định 1181/QĐ-UBND (giấy phép Basal Pay) là ví dụ thực tế áp dụng quy định này.',
+            dieuKhoan:[
+              'Điều 1 Quy định — phạm vi điều chỉnh: tiêu chí, điều kiện, trình tự thủ tục thử nghiệm có kiểm soát công nghệ, sản phẩm, dịch vụ, mô hình kinh doanh mới trong Khu công nghệ cao, Khu công nghệ thông tin tập trung, Trung tâm hỗ trợ khởi nghiệp đổi mới sáng tạo, không gian đổi mới sáng tạo do ngân sách thành phố đầu tư — theo khoản 2, 3, 4, 5 Điều 14 Nghị quyết số 136/2024/QH15.',
+              'Điều 3 — tiêu chí lựa chọn (7 nhóm): có tính đổi mới sáng tạo mà pháp luật hiện hành chưa quy định hoặc không phù hợp; hướng đến giải quyết vấn đề cụ thể, mang lại lợi ích cho cộng đồng; có khả năng hoàn thiện và mở rộng sau thử nghiệm; phù hợp nguồn lực, hạ tầng nơi thử nghiệm; không ảnh hưởng an ninh quốc gia, an ninh tài chính, an ninh thông tin và lợi ích người dùng; có kế hoạch, quy trình vận hành và phương án khắc phục rủi ro rõ ràng; có chiến lược phát triển sau khi kết thúc thử nghiệm. Điều kiện đối với tổ chức tham gia: chấp hành đầy đủ nghĩa vụ thuế, bảo hiểm xã hội, bảo vệ môi trường; đủ nguồn lực kỹ thuật, nhân lực, tài chính.',
+              'Điều 4 — trình tự cấp phép: nộp hồ sơ tại Ban Quản lý Khu công nghệ cao, Sở Thông tin và Truyền thông hoặc Sở Khoa học và Công nghệ (tùy địa điểm thử nghiệm) → Tổ thẩm định (tối thiểu 07 thành viên, thẩm định trong 30 ngày làm việc) → Hội đồng đánh giá (tối thiểu 07 thành viên) → UBND thành phố quyết định trong 15 ngày làm việc, đồng thời chỉ định cơ quan hướng dẫn, kiểm soát → cơ quan này cấp Giấy phép trong 07 ngày làm việc. Tổng thời hạn giải quyết: 89 ngày làm việc. Tổ chức phải bắt đầu thử nghiệm trong 60 ngày kể từ khi được cấp phép, nếu không cơ quan cấp phép hủy giấy phép (trừ bất khả kháng).',
+              'Điều 5 — gia hạn thời gian thử nghiệm: nộp hồ sơ tối thiểu 60 ngày trước khi hết hạn giấy phép; thời hạn giải quyết 33 ngày làm việc, do UBND thành phố quyết định.',
+              'Điều 7.3 — trách nhiệm của tổ chức, cá nhân thử nghiệm: tuân thủ quy chế thử nghiệm; bảo mật dữ liệu, quyền riêng tư; áp dụng biện pháp kiểm soát rủi ro, báo cáo ngay khi có sự cố nghiêm trọng; báo cáo cơ quan cấp phép hằng năm hoặc đột xuất và báo cáo kết quả khi kết thúc thử nghiệm.'
+            ],
+            nguon:{url:'https://thuvienphapluat.vn/van-ban/Linh-vuc-khac/Nghi-quyet-55-2024-NQ-HDND-cap-phep-thu-nghiem-co-kiem-soat-giai-phap-cong-nghe-moi-Da-Nang-637770.aspx', label:'thuvienphapluat.vn — mục lục văn bản; toàn văn đã đối chiếu qua bản PDF congdulieu.vn (55.2024.NQ.HDND.pdf)'},
+            note:'Thời hạn tối đa một lần thử nghiệm KHÔNG được ghi số năm cụ thể trong chính văn bản này (chỉ dẫn chiếu Điều 14 Nghị quyết 136/2024/QH15) — trên thực tế Quyết định 1181/QĐ-UBND (Basal Pay) cấp thời hạn 36 tháng, khớp với thông tin "tối đa 03 năm, gia hạn 01 lần không quá 03 năm" nêu trên báo chí về Điều 14, nhưng số này chưa đối chiếu trực tiếp trong Nghị quyết 136. Có thông tin về Nghị quyết số 20/2026/NQ-HĐND ngày 29/5/2026 ban hành quy định cùng phạm vi điều chỉnh — CHƯA xác minh được quan hệ thay thế/sửa đổi với Nghị quyết 55/2024/NQ-HĐND này; đáng chú ý Quyết định 1181/QĐ-UBND ký ngày 26/8/2026 vẫn viện dẫn Nghị quyết 55/2024/NQ-HĐND làm căn cứ, không viện dẫn Nghị quyết 20/2026.',
+            children:[
+              {
+                id:'qd1181', kind:'doc', code:'QĐ 1181/QĐ-UBND',
+                name:'Cấp phép thử nghiệm "Phần mềm Basal Pay"',
+                title:'Quyết định số 1181/QĐ-UBND của UBND thành phố Đà Nẵng phê duyệt thử nghiệm có kiểm soát, có thời hạn đối với giải pháp công nghệ "Phần mềm Basal Pay"',
+                role:'Quyết định cấp phép cụ thể — trường hợp áp dụng thực tế', status:'ok',
+                banHanh:'26/08/2026 — UBND thành phố Đà Nẵng (Chủ tịch UBND thành phố ký)',
+                hieuLuc:'26/08/2026 — kể từ ngày ký',
+                chucNang:'Giấy phép thử nghiệm cụ thể trong chuỗi Nghị quyết 136/2024/QH15 → Nghị quyết 55/2024/NQ-HĐND, cấp cho Công ty CP AlphaTrue Solutions đối với giải pháp "Phần mềm Basal Pay" — hệ thống kết hợp blockchain và tài chính truyền thống để trao đổi tài sản mã hóa với tiền pháp định. Cũng là điểm giao với nhánh Tài sản mã hóa: mục tiêu nêu rõ là tuân thủ Travel Rule (quy định quốc tế phòng chống rửa tiền) và góp phần đưa Việt Nam ra khỏi Danh sách Xám của FATF — cùng mục tiêu với Quyết định 194/QĐ-TTg ở nhánh Tài sản mã hóa.',
+                dieuKhoan:[
+                  'Thời hạn thử nghiệm: 36 tháng.',
+                  'Phạm vi không gian — 03 địa điểm tại Đà Nẵng: Công viên phần mềm Đà Nẵng số 1 (02, 15 Quang Trung, phường Hải Châu); Công viên phần mềm Đà Nẵng số 2 (đường Như Nguyệt, phường Hải Châu); Trung tâm hỗ trợ khởi nghiệp đổi mới sáng tạo (58 Nguyễn Chí Thanh, phường Hải Châu).',
+                  'Giám sát: Sở Khoa học và Công nghệ Đà Nẵng thành lập Tổ kiểm soát để theo dõi, phát hiện vi phạm, đánh giá kết quả và kiến nghị chính sách nhân rộng.',
+                  'Trách nhiệm của Công ty CP AlphaTrue Solutions: tuân thủ quy chế thử nghiệm; bảo mật dữ liệu và quyền riêng tư; báo cáo hằng năm hoặc đột xuất; kiểm soát rủi ro trong quá trình thử nghiệm — đúng khuôn khổ Điều 7.3 Quy định kèm theo Nghị quyết 55/2024/NQ-HĐND.',
+                  'Căn cứ pháp lý được nêu trong quyết định: Nghị quyết số 136/2024/QH15 và Nghị quyết số 55/2024/NQ-HĐND.'
+                ],
+                nguon:{url:'https://danang.gov.vn/vi/w/phe-duyet-thu-nghiem-co-kiem-soat-co-thoi-han-doi-voi-giai-phap-cong-nghe-moi-phan-mem-basal-pay', label:'danang.gov.vn — Cổng thông tin điện tử thành phố Đà Nẵng'}
+              }
+            ]
+          }
+        ]
       }
     ]
   },
@@ -326,7 +385,7 @@ const DATA = {
         note:'Khi viện dẫn số điều/khoản cụ thể, KHÔNG dùng bản gốc 32/2024/QH15 mà dùng bản hợp nhất: Văn bản hợp nhất số 158/VBHN-VPQH (Công báo số 1391+1392 ngày 24/09/2025), hợp nhất Luật 32/2024/QH15 với Luật 43/2024/QH15 và Luật 96/2025/QH15. Bản hợp nhất này chưa bao gồm đợt sửa đổi 24/08/2026.'
       },
       {
-        id:'nd52', kind:'doc', code:'NĐ 52/2024/NĐ-CP',
+        id:'nd52', kind:'doc', code:'NĐ 52/2024/NĐ-CP', shared:true,
         name:'Thanh toán không dùng tiền mặt',
         title:'Nghị định số 52/2024/NĐ-CP về thanh toán không dùng tiền mặt',
         role:'Nghị định', status:'ok',
@@ -336,7 +395,8 @@ const DATA = {
         chucNang:'Khuôn khổ pháp lý cho hoạt động thanh toán không dùng tiền mặt — mảng fintech đông đúc nhất hiện nay. Xác định rõ chủ thể được cung ứng dịch vụ thanh toán không qua tài khoản thanh toán của khách hàng, cùng điều kiện, hồ sơ, quy trình để được NHNN chấp thuận hoặc thu hồi văn bản chấp thuận.',
         dieuKhoan:[
           'Chủ thể được cung ứng dịch vụ thanh toán không qua tài khoản: ngân hàng, quỹ tín dụng nhân dân, tổ chức tài chính vi mô và doanh nghiệp cung ứng dịch vụ bưu chính công ích.',
-          'Sửa đổi, bổ sung quy định về hoạt động cung ứng dịch vụ trung gian thanh toán.'
+          'Sửa đổi, bổ sung quy định về hoạt động cung ứng dịch vụ trung gian thanh toán.',
+          'Nghị định này đồng thời định danh "thanh toán quốc tế" và đặt điều kiện tham gia hệ thống thanh toán quốc tế, cấp Giấy phép trung gian thanh toán — xem node "NĐ 52/2024/NĐ-CP" ở nhánh Thanh toán xuyên biên giới.'
         ],
         nguon:{url:'https://sbv.gov.vn/en/w/sbv598227', label:'Ngân hàng Nhà nước — giới thiệu Nghị định'}
       }
@@ -388,8 +448,41 @@ const DATA = {
             ],
             nguon:{url:'https://vanban.chinhphu.vn/?pageid=27160&docid=218906', label:'vanban.chinhphu.vn — bản ký số'},
             note:'Ranh giới áp dụng: khoản 3 Điều 1 — hành vi vi phạm ở lĩnh vực khác có liên quan đến tài sản mã hóa mà không được quy định tại nghị định này thì áp dụng nghị định xử phạt của lĩnh vực tương ứng. Điều 22 quy định chuyển tiếp cho trường hợp Chính phủ tạm ngừng, đình chỉ hoặc chấm dứt việc thí điểm.'
+          },
+          {
+            id:'banql', kind:'doc', code:'QĐ 3552 & 3792/QĐ-BTC',
+            name:'Ban Quản lý thị trường giao dịch tài sản mã hóa',
+            title:'Ban Quản lý thị trường giao dịch tài sản mã hóa thuộc Ủy ban Chứng khoán Nhà nước — thành lập theo Quyết định số 3552/QĐ-BTC và số 3792/QĐ-BTC của Bộ Tài chính',
+            role:'Quyết định tổ chức bộ máy — cơ quan thực thi', status:'check',
+            banHanh:'21/10/2025 (QĐ 3552/QĐ-BTC) và 10/11/2025 (QĐ 3792/QĐ-BTC) — Bộ Tài chính; triển khai bằng QĐ 979/QĐ-UBCK và QĐ 977/QĐ-UBCK ngày 09/12/2025 của Ủy ban Chứng khoán Nhà nước',
+            hieuLuc:'công bố chính thức tại hội nghị ngày 10/12/2025',
+            chucNang:'Cơ quan thực thi thực tế của Nghị quyết 05/2025/NQ-CP: nghiên cứu, xây dựng khung pháp lý và cơ chế chính sách cho thị trường tài sản mã hóa, học hỏi kinh nghiệm quốc tế, giám sát thị trường và tham mưu lựa chọn doanh nghiệp đủ điều kiện tham gia giao dịch. Ông Bùi Hoàng Hải (Phó Chủ tịch Ủy ban Chứng khoán Nhà nước) kiêm giữ chức Trưởng ban.',
+            dieuKhoan:[
+              'QĐ 3552/QĐ-BTC (21/10/2025) — Bộ Tài chính thành lập Ban Quản lý thị trường giao dịch tài sản mã hóa.',
+              'QĐ 3792/QĐ-BTC (10/11/2025) — Bộ Tài chính giao nhiệm vụ điều hành Ban.',
+              'QĐ 979/QĐ-UBCK và QĐ 977/QĐ-UBCK (09/12/2025) — Ủy ban Chứng khoán Nhà nước quy định chức năng, nhiệm vụ, quyền hạn của Ban và điều động công chức đảm nhiệm nhiệm vụ tại đơn vị mới.',
+              'Từ 20/01/2026, Bộ Tài chính công bố 03 thủ tục hành chính mới theo Quyết định số 96/QĐ-BTC: cấp, điều chỉnh và thu hồi Giấy phép cung cấp dịch vụ tổ chức thị trường giao dịch tài sản mã hóa — UBCKNN là cơ quan tiếp nhận theo cơ chế một cửa.'
+            ],
+            nguon:{url:'https://itpc.hochiminhcity.gov.vn/-/viet-nam-co-ban-quan-ly-thi-truong-giao-dich-tai-san-ma-hoa', label:'itpc.hochiminhcity.gov.vn — tổng hợp tin'},
+            note:'Toàn văn 04 quyết định (3552/QĐ-BTC, 3792/QĐ-BTC, 979/QĐ-UBCK, 977/QĐ-UBCK) và Quyết định 96/QĐ-BTC CHƯA được đối chiếu trực tiếp trong lần tra cứu này — nội dung trên tổng hợp từ báo chí (vneconomy.vn, tinnhanhchungkhoan.vn, mof.gov.vn). Đối chiếu bản gốc trước khi viện dẫn số điều/khoản cụ thể.'
           }
         ]
+      },
+      {
+        id:'qd1236', kind:'doc', code:'QĐ 1236/QĐ-TTg',
+        name:'Chiến lược quốc gia về blockchain',
+        title:'Quyết định số 1236/QĐ-TTg của Thủ tướng Chính phủ ban hành Chiến lược quốc gia về ứng dụng và phát triển công nghệ chuỗi khối (blockchain) đến năm 2025, định hướng đến năm 2030',
+        role:'Quyết định chiến lược — nền tảng công nghệ, tiền thân', status:'ok',
+        banHanh:'22/10/2024 — Thủ tướng Chính phủ (KT. Thủ tướng, Phó Thủ tướng Hồ Đức Phớc)',
+        hieuLuc:'22/10/2024 — kể từ ngày ký',
+        chucNang:'Văn bản chiến lược sớm nhất của nhánh này — ban hành trước cả Luật 71/2025/QH15 và Nghị quyết 05/2025/NQ-CP gần một năm, đóng vai trò tiền thân đặt tầm nhìn cho hạ tầng blockchain quốc gia mà tài sản mã hóa vận hành trên đó. Do Bộ Thông tin và Truyền thông đề nghị; là chiến lược, không phải văn bản quy phạm pháp luật, nên không tự đặt ra quyền/nghĩa vụ pháp lý.',
+        dieuKhoan:[
+          'Mục tiêu đến 2025: hình thành Hạ tầng chuỗi khối Việt Nam; thúc đẩy nghiên cứu tại 03 trung tâm đổi mới sáng tạo quốc gia; hình thành tối thiểu 01 trung tâm/đặc khu thử nghiệm về chuỗi khối.',
+          'Định hướng đến 2030: Việt Nam thuộc nhóm quốc gia dẫn đầu khu vực về nghiên cứu, ứng dụng chuỗi khối; xây dựng được 20 thương hiệu blockchain uy tín; duy trì tối thiểu 03 trung tâm/đặc khu thử nghiệm.',
+          'Mục IV.2.đ (Nhiệm vụ, giải pháp) — "Xây dựng cơ chế thử nghiệm có kiểm soát (Sandbox) về chuỗi khối trong lĩnh vực có tiềm năng ứng dụng hiệu quả như công nghệ tài chính, giao thông vận tải..." — điểm giao trực tiếp với cả nhánh Sandbox công nghệ số và nhánh Tài sản mã hóa.',
+          'Mục IV.3.c — ưu tiên đào tạo, bồi dưỡng nhân tài lãnh đạo và dẫn dắt đổi mới cấp cao trong lĩnh vực tài chính và khởi nghiệp công nghệ tài chính (FinTech) liên quan chuỗi khối.'
+        ],
+        nguon:{url:'https://vanban.chinhphu.vn/?pageid=27160&docid=211462', label:'vanban.chinhphu.vn — dẫn tới bản ký số 1236-ttg.signed.pdf'}
       },
       {
         id:'l71b', kind:'doc', code:'Luật 71/2025/QH15', shared:true, ref:'l71',
@@ -458,7 +551,7 @@ const DATA = {
             nguon:{url:'https://vanban.chinhphu.vn/?pageid=27160&docid=207830&classid=1&typegroupid=4', label:'vanban.chinhphu.vn — bản ký số'}
           },
           {
-            id:'tt09', kind:'doc', code:'TT 09/2023/TT-NHNN',
+            id:'tt09', kind:'doc', code:'TT 09/2023/TT-NHNN', shared:true,
             name:'Hướng dẫn chế độ báo cáo phòng chống rửa tiền',
             title:'Thông tư số 09/2023/TT-NHNN hướng dẫn thực hiện một số quy định về phòng, chống rửa tiền',
             role:'Thông tư hướng dẫn', status:'ok',
@@ -491,6 +584,22 @@ const DATA = {
               'Điều 3 — mức giao dịch có giá trị lớn phải báo cáo là từ 400.000.000 (bốn trăm triệu) đồng trở lên.'
             ],
             nguon:{url:'https://vanban.chinhphu.vn/?pageid=27160&docid=207824', label:'vanban.chinhphu.vn — bản ký số'}
+          },
+          {
+            id:'qd194', kind:'doc', code:'QĐ 194/QĐ-TTg',
+            name:'Kế hoạch hành động quốc gia — cam kết FATF',
+            title:'Quyết định số 194/QĐ-TTg của Thủ tướng Chính phủ ban hành Kế hoạch hành động quốc gia thực hiện cam kết của Chính phủ Việt Nam về phòng, chống rửa tiền, tài trợ khủng bố và tài trợ phổ biến vũ khí hủy diệt hàng loạt',
+            role:'Quyết định — kế hoạch hành động thực hiện cam kết quốc tế', status:'ok',
+            banHanh:'23/02/2024 — Thủ tướng Chính phủ (KT. Thủ tướng, Phó Thủ tướng Lê Minh Khái)',
+            hieuLuc:'23/02/2024 — kể từ ngày ký ban hành (Điều 2)',
+            chucNang:'Đặt động lực chính trị cho toàn bộ lớp tuân thủ của nhánh này: cụ thể hóa cam kết của Việt Nam với Lực lượng đặc nhiệm tài chính (FATF) nhằm sớm đưa Việt Nam ra khỏi Danh sách rà soát tăng cường (Danh sách Xám). Ngân hàng Nhà nước là đầu mối theo dõi, đôn đốc và tổng hợp báo cáo gửi FATF theo định kỳ quý (trước 01/3, 01/6, 01/9, 01/12 hằng năm).',
+            dieuKhoan:[
+              'Kế hoạch kèm theo gồm nhiều "Hành động" cụ thể có thời hạn, cơ quan chủ trì và phối hợp — ví dụ Hành động 1 (hạn tháng 9/2024): chứng minh cơ quan có thẩm quyền đã nâng cao nhận biết rủi ro rửa tiền/tài trợ khủng bố và đang giảm thiểu rủi ro qua chiến lược, chính sách cụ thể; Hành động 2 (hạn tháng 9/2024): chứng minh hợp tác, phối hợp hiệu quả giữa các cơ quan liên quan.',
+              'Phân vai chủ trì: NHNN đánh giá rủi ro quốc gia về rửa tiền và rủi ro sử dụng tiền mặt; Bộ Công an đánh giá rủi ro tài trợ khủng bố và điều tra tội phạm nguồn có nguy cơ rửa tiền cao; Bộ Quốc phòng đánh giá rủi ro tài trợ phổ biến vũ khí hủy diệt hàng loạt; Bộ Xây dựng phụ trách kế hoạch liên quan sử dụng vàng để mua bán bất động sản.',
+              'Căn cứ ban hành gồm Luật Phòng, chống rửa tiền 15/11/2022, Luật Phòng, chống khủng bố 12/6/2013, Nghị định số 81/2019/NĐ-CP về phòng, chống phổ biến vũ khí hủy diệt hàng loạt, và Quyết định số 941/QĐ-NHNN ngày 05/8/2022 về kế hoạch hành động quốc gia giai đoạn 2021-2025 — cho thấy đây là lớp kế hoạch bổ sung, không thay thế kế hoạch giai đoạn trước.',
+              'Đề nghị Viện Kiểm sát nhân dân tối cao và Tòa án nhân dân tối cao phối hợp triển khai — điểm hiếm thấy trong các văn bản khác của nhánh này vì đưa cả hệ thống tư pháp vào vòng thực hiện cam kết.'
+            ],
+            nguon:{url:'https://vanban.chinhphu.vn/?pageid=27160&docid=209781', label:'vanban.chinhphu.vn — dẫn tới bản ký số 194-qdttg.signed.pdf'}
           }
         ]
       }
@@ -571,6 +680,212 @@ const DATA = {
             note:'Node giữ chỗ có chủ ý. Số hiệu 07 nghị định còn lại KHÔNG được suy đoán hay tự điền. Khi cần dùng, tra trực tiếp vanban.chinhphu.vn hoặc congbao.chinhphu.vn rồi bổ sung vào khối DATA của file này.'
           }
         ]
+      }
+    ]
+  },
+
+  /* ─────────────────── NHÁNH 5 ─────────────────── */
+  {
+    id:'b5', kind:'branch', color:'c5', side:'R',
+    title:'Thanh toán xuyên biên giới',
+    role:'Trụ 5 — dòng tiền qua biên giới',
+    chucNang:'Nhánh này trả lời một câu hỏi duy nhất: ai được phép chuyển tiền qua biên giới, và xin phép ai. Bốn cửa cấp phép ứng với bốn loại chủ thể — tổ chức tín dụng được phép hoạt động ngoại hối (Pháp lệnh Ngoại hối và cụm nghị định, thông tư hướng dẫn); tổ chức kinh tế ngoài ngành ngân hàng làm dịch vụ nhận và chi, trả ngoại tệ (Nghị định 89/2016/NĐ-CP, xin chấp thuận tại NHNN chi nhánh); tổ chức trung gian thanh toán phải có Giấy phép do Ngân hàng Nhà nước cấp (Nghị định 52/2024/NĐ-CP); và thương nhân trong thương mại biên giới (Thông tư 19/2018/TT-NHNN). Chồng lên cả bốn cửa là lớp tuân thủ phòng chống rửa tiền và lớp chế tài xử phạt hành chính.',
+    children:[
+      {
+        id:'plnh', kind:'doc', code:'PL 28/2005/PL-UBTVQH11',
+        name:'Pháp lệnh Ngoại hối',
+        title:'Pháp lệnh Ngoại hối số 28/2005/PL-UBTVQH11',
+        role:'Pháp lệnh nền — trục chính của nhánh', status:'ok',
+        banHanh:'13/12/2005 — Ủy ban Thường vụ Quốc hội khóa XI',
+        hieuLuc:'01/06/2006 · bản sửa đổi hiệu lực 01/01/2014',
+        chucNang:'Văn bản cốt lõi cần nhớ của nhánh này. Mọi giao dịch chuyển tiền ra vào Việt Nam đều bắt đầu từ đây: pháp lệnh xác định ai là người cư trú, người không cư trú, giao dịch nào là vãng lai, giao dịch nào là giao dịch vốn, và tổ chức nào được phép kinh doanh, cung ứng dịch vụ ngoại hối. Nguyên tắc nền cần nhớ: trên lãnh thổ Việt Nam chỉ sử dụng đồng Việt Nam — ngoại tệ chỉ được dùng trong các trường hợp pháp luật cho phép.',
+        dieuKhoan:[
+          'Được sửa đổi, bổ sung bởi Pháp lệnh số 06/2013/UBTVQH13 ngày 18/03/2013 (hiệu lực 01/01/2014): sửa các khoản 2, 4, 6, 7, 11, 12, 13 Điều 4 và bổ sung khoản 20 vào Điều 4.',
+          'Điều 5 — áp dụng pháp luật về ngoại hối, điều ước quốc tế, pháp luật nước ngoài và tập quán quốc tế: nếu điều ước quốc tế mà Việt Nam là thành viên có quy định khác thì áp dụng điều ước quốc tế. Đây là căn cứ cho các hiệp định thanh toán song phương ở nhánh thương mại biên giới.',
+          'Chính sách quản lý ngoại hối hướng tới tạo thuận lợi và bảo đảm lợi ích hợp pháp cho tổ chức, cá nhân tham gia hoạt động ngoại hối.',
+          'Điều 43 — xử lý vi phạm; phần chế tài cụ thể nằm ở nghị định xử phạt vi phạm hành chính lĩnh vực tiền tệ và ngân hàng.'
+        ],
+        nguon:{url:'https://vbpl.vn/hoabinh/Pages/vbpq-toanvan.aspx?ItemID=16868', label:'vbpl.vn — toàn văn'},
+        note:'Khi viện dẫn số điều/khoản cụ thể, KHÔNG dùng bản gốc 2005 mà dùng bản hợp nhất số 07/VBHN-VPQH ngày 11/07/2013 (hợp nhất Pháp lệnh 28/2005 với Pháp lệnh 06/2013). Pháp lệnh chưa bị thay thế bằng Luật: các thông tư NHNN ban hành cuối năm 2025 vẫn lấy Pháp lệnh này làm căn cứ ban hành. Link nguồn trỏ tới bản trong kho địa phương của CSDL quốc gia — ItemID của kho Trung ương (/TW/) chưa tra được trong lần tra cứu này.',
+        children:[
+          {
+            id:'nd70', kind:'doc', code:'NĐ 70/2014/NĐ-CP',
+            name:'Quy định chi tiết Pháp lệnh Ngoại hối',
+            title:'Nghị định số 70/2014/NĐ-CP quy định chi tiết thi hành một số điều của Pháp lệnh Ngoại hối và Pháp lệnh sửa đổi, bổ sung một số điều của Pháp lệnh Ngoại hối',
+            role:'Nghị định hướng dẫn', status:'ok',
+            banHanh:'17/07/2014 — Chính phủ',
+            hieuLuc:'05/09/2014 — thay thế Nghị định 160/2006/NĐ-CP',
+            chucNang:'Đây là nơi trả lời câu hỏi thực tế nhất của người dân và doanh nghiệp: được chuyển tiền ra nước ngoài trong những trường hợp nào. Nghị định cụ thể hóa hoạt động ngoại hối của người cư trú và người không cư trú tại Việt Nam, gồm giao dịch vãng lai, giao dịch vốn, sử dụng ngoại tệ tiền mặt và chuyển lợi nhuận của nhà đầu tư nước ngoài.',
+            dieuKhoan:[
+              'Chuyển tiền một chiều ra nước ngoài của tổ chức: người cư trú là tổ chức được chuyển tiền phục vụ mục đích tài trợ, viện trợ hoặc mục đích khác theo quy định của Ngân hàng Nhà nước.',
+              'Chuyển tiền một chiều của cá nhân: công dân Việt Nam được mua, chuyển, mang ngoại tệ ra nước ngoài cho học tập, chữa bệnh, công tác, du lịch, thăm viếng; trả phí, lệ phí; trợ cấp thân nhân ở nước ngoài; chuyển tiền thừa kế; chuyển tiền khi định cư ở nước ngoài và các nhu cầu hợp pháp khác.',
+              'Chuyển lợi nhuận của nhà đầu tư nước ngoài: với khoản thu hợp pháp bằng đồng Việt Nam từ đầu tư trực tiếp, nhà đầu tư được mua ngoại tệ tại tổ chức tín dụng được phép và chuyển ra nước ngoài trong thời hạn 30 ngày làm việc kể từ ngày mua được ngoại tệ.',
+              'Ngoại tệ tiền mặt của cá nhân: được cất giữ, mang theo người, cho, tặng, thừa kế, bán cho tổ chức tín dụng được phép, chuyển hoặc mang ra nước ngoài theo quy định; công dân Việt Nam cư trú được gửi tiết kiệm ngoại tệ và rút gốc, lãi bằng đồng tiền đã gửi.'
+            ],
+            nguon:{url:'https://vanban.chinhphu.vn/default.aspx?pageid=27160&docid=174982', label:'vanban.chinhphu.vn — toàn văn'},
+            children:[
+              {
+                id:'tt20', kind:'doc', code:'TT 20/2022/TT-NHNN',
+                name:'Chuyển tiền một chiều ra nước ngoài',
+                title:'Thông tư số 20/2022/TT-NHNN hướng dẫn hoạt động chuyển tiền một chiều từ Việt Nam ra nước ngoài và thanh toán, chuyển tiền cho các giao dịch vãng lai khác của người cư trú là tổ chức, cá nhân',
+                role:'Thông tư hướng dẫn', status:'ok',
+                banHanh:'30/12/2022 — Ngân hàng Nhà nước Việt Nam',
+                hieuLuc:'15/02/2023 (Điều 18)',
+                chucNang:'Lớp thủ tục chi tiết nhất của dòng tiền một chiều đi ra: xác định trường hợp nào được mua, chuyển, mang ngoại tệ ra nước ngoài, hồ sơ, chứng từ và hạn mức. Điểm cần nhớ khi thiết kế sản phẩm fintech chuyển tiền: mọi khoản thanh toán, chuyển tiền theo thông tư này đều PHẢI thực hiện thông qua ngân hàng được phép — không có kênh nào khác.',
+                dieuKhoan:[
+                  'Các trường hợp mua, chuyển, mang ngoại tệ ra nước ngoài cho mục đích chuyển tiền một chiều của tổ chức, trong đó có mục đích tài trợ, viện trợ.',
+                  'Giao dịch vãng lai khác gồm: thanh toán, chuyển tiền liên quan đến tạm nhập, tái xuất, tạm xuất, tái nhập, quá cảnh; đóng góp và chi trả bảo hiểm xã hội; đóng phí bảo hiểm, tái bảo hiểm; chi phí theo bản án, quyết định có hiệu lực của tòa án, trọng tài hoặc cơ quan có thẩm quyền; tiền phạt, bồi thường do làm hư hỏng tài sản, gây thương tích mà chưa được bảo hiểm chi trả.',
+                  'Thanh toán, chuyển tiền ra nước ngoài để mua bán hàng hóa qua Sở Giao dịch hàng hóa ở nước ngoài phải tuân thủ Thông tư này và các quy định liên quan.',
+                  'Điều 18 — bãi bỏ Thông tư 20/2011/TT-NHNN ngày 29/08/2011 về mua, bán ngoại tệ tiền mặt của cá nhân với tổ chức tín dụng được phép, và bãi bỏ khoản 3 Điều 1 Thông tư 24/2018/TT-NHNN.'
+                ],
+                nguon:{url:'https://vanban.chinhphu.vn/?classid=1&docid=207239&orggroupid=4&pageid=27160', label:'vanban.chinhphu.vn — toàn văn'},
+                note:'Chế độ báo cáo định kỳ theo Thông tư này được công bố tại Quyết định số 181/QĐ-NHNN — quyết định này chưa được đối chiếu bản gốc trong lần tra cứu.'
+              }
+            ]
+          },
+          {
+            id:'nd89', kind:'doc', code:'NĐ 89/2016/NĐ-CP',
+            name:'Cấp phép cho tổ chức kinh tế nhận và chi, trả ngoại tệ',
+            title:'Nghị định số 89/2016/NĐ-CP quy định điều kiện đối với hoạt động đại lý đổi ngoại tệ, hoạt động cung ứng dịch vụ nhận và chi, trả ngoại tệ của tổ chức kinh tế',
+            role:'Nghị định — cửa cấp phép cho doanh nghiệp ngoài ngành ngân hàng', status:'check',
+            banHanh:'01/07/2016 — Chính phủ',
+            hieuLuc:'01/07/2016 — kể từ ngày ký; sửa đổi bởi NĐ 23/2023/NĐ-CP ngày 12/05/2023',
+            chucNang:'Đây là cửa pháp lý mà một công ty tư nhân không phải ngân hàng phải đi qua nếu muốn làm dịch vụ chuyển tiền quốc tế / kiều hối tại Việt Nam. Nghị định đặt điều kiện cho ba hoạt động của tổ chức kinh tế: đại lý đổi ngoại tệ, trực tiếp nhận và chi, trả ngoại tệ, và đại lý chi, trả ngoại tệ. Mô hình thị trường hình thành từ đây: hoặc doanh nghiệp tự xin chấp thuận trực tiếp nhận và chi, trả ngoại tệ, hoặc làm đại lý dưới ủy quyền của một tổ chức tín dụng được phép.',
+            dieuKhoan:[
+              'Ba nhóm hoạt động được điều chỉnh: đại lý đổi ngoại tệ · trực tiếp nhận và chi, trả ngoại tệ · đại lý chi, trả ngoại tệ.',
+              'Điều kiện được chấp thuận đăng ký đại lý chi, trả ngoại tệ: được thành lập hoặc đăng ký kinh doanh theo pháp luật Việt Nam; có trang thiết bị và cơ sở vật chất đáp ứng yêu cầu hoạt động; và ĐƯỢC MỘT TỔ CHỨC TÍN DỤNG ĐƯỢC PHÉP ỦY QUYỀN làm đại lý chi, trả ngoại tệ.',
+              'Nghị định 23/2023/NĐ-CP ngày 12/05/2023 sửa đổi phạm vi điều chỉnh (tách riêng hoạt động đại lý đổi tiền của nước có chung biên giới) và bổ sung các trường hợp Giấy chứng nhận tự động hết hiệu lực: tổ chức bị giải thể, phá sản; bị thu hồi Giấy chứng nhận đăng ký doanh nghiệp, đăng ký đầu tư, đăng ký hoạt động chi nhánh; hoặc tổ chức tín dụng ủy quyền chấm dứt hợp đồng đại lý.',
+              'Nghị định 23/2023/NĐ-CP đồng thời sửa Điều 23 Nghị định 88/2019/NĐ-CP về xử phạt vi phạm hành chính trong hoạt động ngoại hối.'
+            ],
+            nguon:{url:'https://chinhphu.vn/default.aspx?pageid=27160&docid=185465', label:'chinhphu.vn — toàn văn'},
+            note:'Chưa xác minh ngày hiệu lực của Nghị định 23/2023/NĐ-CP và chưa đối chiếu toàn văn số điều, khoản của cả hai nghị định — khi viện dẫn phải dùng bản hợp nhất 89/2016 + 23/2023. Muốn kiểm tra giấy phép của một doanh nghiệp cụ thể: mảng nhận và chi, trả ngoại tệ do NHNN chi nhánh nơi doanh nghiệp đặt trụ sở chính cấp văn bản chấp thuận, không có danh mục tập trung trên cổng NHNN, phải hỏi trực tiếp chi nhánh khu vực hoặc yêu cầu doanh nghiệp xuất trình bản gốc.',
+            children:[
+              {
+                id:'tt34', kind:'doc', code:'TT 34/2015/TT-NHNN',
+                name:'Thủ tục chấp thuận nhận và chi, trả ngoại tệ',
+                title:'Thông tư số 34/2015/TT-NHNN hướng dẫn hoạt động cung ứng dịch vụ nhận và chi, trả ngoại tệ',
+                role:'Thông tư hướng dẫn — lớp thủ tục', status:'check',
+                banHanh:'31/12/2015 — Ngân hàng Nhà nước Việt Nam',
+                hieuLuc:'01/03/2016 — đã qua nhiều đợt sửa đổi, xem phần lưu ý',
+                chucNang:'Lớp thủ tục của Nghị định 89/2016/NĐ-CP: hồ sơ, trình tự xin văn bản chấp thuận trực tiếp nhận và chi, trả ngoại tệ; đăng ký đại lý chi, trả ngoại tệ; thay đổi, bổ sung, gia hạn và thu hồi. Điểm cần nhớ về thẩm quyền: cấp phép KHÔNG nằm ở Hội sở NHNN mà ở NHNN chi nhánh nơi tổ chức đặt trụ sở chính — Thông tư 75/2025/TT-NHNN chuyển thẩm quyền này sang NHNN chi nhánh Khu vực. Tổ chức tín dụng được phép thì không phải làm thủ tục đề nghị chấp thuận theo thông tư này.',
+                dieuKhoan:[
+                  'Tổ chức kinh tế trực tiếp nhận và chi, trả ngoại tệ phải mở 01 tài khoản thanh toán cho từng loại ngoại tệ (tài khoản chuyên dùng) tại 01 ngân hàng thương mại hoặc chi nhánh ngân hàng nước ngoài được phép trên địa bàn nơi đặt trụ sở chính.',
+                  'Điều 17 — thu hồi văn bản chấp thuận, gồm trường hợp tổ chức bị thu hồi Giấy phép thành lập và hoạt động, Giấy chứng nhận đăng ký doanh nghiệp, Giấy chứng nhận đăng ký đầu tư hoặc văn bản có giá trị tương đương.',
+                  'Đã bị sửa đổi, bổ sung bởi Thông tư 11/2016/TT-NHNN ngày 29/06/2016 (hiệu lực 13/08/2016), Thông tư 15/2019/TT-NHNN ngày 11/10/2019 (hiệu lực 25/11/2019) và Thông tư 75/2025/TT-NHNN.',
+                  'Thông tư 75/2025/TT-NHNN mở rộng phạm vi điều chỉnh sang hoạt động trực tiếp nhận và chi, trả ngoại tệ, hoạt động đại lý chi, trả ngoại tệ của tổ chức tín dụng, chi nhánh ngân hàng nước ngoài và tổ chức kinh tế, trong đó có Tổng công ty Bưu điện Việt Nam.'
+                ],
+                nguon:{url:'https://hochiminhcity.gov.vn/vi/web/hcm/w/huong-dan-cung-ung-dich-vu-nhan-va-chi-tra-ngoai-te', label:'Cổng TTĐT TP.HCM — hướng dẫn thủ tục'},
+                note:'KHÔNG viện dẫn bản gốc 2015 cho phạm vi điều chỉnh, thẩm quyền chấp thuận và hồ sơ, thủ tục — dùng bản hợp nhất số 24/VBHN-NHNN. Số điều, khoản nêu trên chưa được đối chiếu toàn văn bản gốc; nguồn hiện dẫn là trang hướng dẫn thủ tục, chưa phải bản ký số của NHNN.'
+              }
+            ]
+          },
+          {
+            id:'tt19', kind:'doc', code:'TT 19/2018/TT-NHNN',
+            name:'Thanh toán thương mại biên giới Việt Nam – Trung Quốc',
+            title:'Thông tư số 19/2018/TT-NHNN hướng dẫn về quản lý ngoại hối đối với hoạt động thương mại biên giới Việt Nam – Trung Quốc',
+            role:'Thông tư — kênh thanh toán biên mậu', status:'ok',
+            banHanh:'28/08/2018 — Ngân hàng Nhà nước Việt Nam',
+            hieuLuc:'12/10/2018 — thay thế Quyết định 689/2004/QĐ-NHNN',
+            chucNang:'Kênh thanh toán xuyên biên giới lâu đời nhất và có khối lượng lớn nhất trên thực tế, nhưng thường bị bỏ quên khi bàn về fintech. Thông tư hướng dẫn Nghị định 14/2018/NĐ-CP về hoạt động thương mại biên giới, quy định đồng tiền thanh toán, phương thức thanh toán và trách nhiệm của ngân hàng được phép trong giao dịch mua bán, trao đổi hàng hóa, dịch vụ tại khu vực biên giới và khu kinh tế cửa khẩu Việt Nam – Trung Quốc.',
+            dieuKhoan:[
+              'Áp dụng cho thương nhân và cư dân biên giới, tạo thuận lợi cho hoạt động thương mại biên giới đồng thời bảo đảm hiệu quả quản lý nhà nước đối với hoạt động thanh toán biên mậu.',
+              'Cơ sở điều ước quốc tế: Hiệp định thương mại biên giới giữa Chính phủ Việt Nam và Chính phủ Trung Quốc ký ngày 12/09/2016; Hiệp định thanh toán và hợp tác giữa Ngân hàng Nhà nước Việt Nam và Ngân hàng Nhân dân Trung Quốc ký ngày 26/05/1993, sửa đổi ngày 16/10/2003. Đây là ví dụ trực tiếp của nguyên tắc ưu tiên điều ước quốc tế tại Điều 5 Pháp lệnh Ngoại hối.',
+              'Sửa đổi, bổ sung Điều 1 Thông tư 33/2013/TT-NHNN hướng dẫn thủ tục chấp thuận hoạt động xuất khẩu, nhập khẩu ngoại tệ tiền mặt của các ngân hàng được phép.',
+              'Kể từ ngày Thông tư có hiệu lực, Quyết định 689/2004/QĐ-NHNN ngày 07/06/2004 về Quy chế thanh toán trong mua bán, trao đổi hàng hóa và dịch vụ tại khu vực biên giới và khu kinh tế cửa khẩu Việt Nam – Trung Quốc hết hiệu lực.'
+            ],
+            nguon:{url:'https://vanban.chinhphu.vn/default.aspx?pageid=27160&docid=195131', label:'vanban.chinhphu.vn — toàn văn'},
+            note:'Chưa xác minh Thông tư có bị sửa đổi, bổ sung sau năm 2018 hay không. Tuyến biên giới Việt Nam – Campuchia có quy chế thanh toán riêng, đã được Thông tư 75/2025/TT-NHNN sửa đổi — xem node bên cạnh.'
+          },
+          {
+            id:'ttfx25', kind:'doc', code:'TT 75 & 78/2025/TT-NHNN',
+            name:'Cải cách thủ tục cấp phép ngoại hối 2025–2026',
+            title:'Cụm thông tư sửa đổi quy định quản lý ngoại hối để thực thi phương án cắt giảm, đơn giản hóa thủ tục hành chính',
+            role:'Thông tư sửa đổi — cụm văn bản', status:'check',
+            banHanh:'31/12/2025 — Ngân hàng Nhà nước Việt Nam',
+            hieuLuc:'TT 75/2025 từ 31/12/2025 · TT 78/2025 từ 25/01/2026',
+            chucNang:'Đợt cải cách thủ tục hành chính chạm vào gần như toàn bộ lớp cấp phép của nhánh này, nên phải đọc trước khi dùng bất kỳ văn bản ngoại hối nào ban hành trước 2025. Thay đổi đáng nhớ nhất về mặt vận hành là dịch chuyển thẩm quyền: từ NHNN chi nhánh tỉnh, thành phố sang NHNN chi nhánh Khu vực.',
+            dieuKhoan:[
+              'TT 75/2025/TT-NHNN — sửa đổi các văn bản trong lĩnh vực quản lý hoạt động cung ứng dịch vụ và sử dụng ngoại hối: sửa Quy chế thanh toán biên giới Việt Nam – Campuchia (quản lý, giám sát thanh toán, trách nhiệm tổ chức thực hiện, chế độ báo cáo); sửa Thông tư 34/2015/TT-NHNN; quy định điều kiện, trình tự, thủ tục chấp thuận hoạt động ngoại hối cơ bản và hoạt động ngoại hối khác của tổ chức tín dụng.',
+              'TT 75/2025 bổ sung Điều 4a chuyển thẩm quyền chấp thuận, gia hạn hoạt động ngoại hối của chi nhánh ngân hàng nước ngoài từ Giám đốc NHNN chi nhánh tỉnh, thành phố sang Giám đốc NHNN chi nhánh Khu vực; không áp dụng với chi nhánh ngân hàng nước ngoài thuộc đối tượng giám sát an toàn vi mô của Cục Quản lý, giám sát tổ chức tín dụng.',
+              'TT 78/2025/TT-NHNN — mảng giao dịch vốn: sửa Thông tư 37/2013/TT-NHNN về cho vay ra nước ngoài và thu hồi nợ bảo lãnh cho người không cư trú (bổ sung Điều 7a về nộp hồ sơ trực tiếp, qua bưu chính hoặc trực tuyến qua Cổng dịch vụ công quốc gia); sửa khoản 2 Điều 6 Thông tư 10/2016/TT-NHNN về đầu tư gián tiếp ra nước ngoài.'
+            ],
+            nguon:{url:'https://vanban.chinhphu.vn/?docid=216578&pageid=27160', label:'vanban.chinhphu.vn — TT 75/2025/TT-NHNN'},
+            note:'Chi tiết điều khoản của cả hai thông tư lấy từ nguồn tổng hợp thương mại, CHƯA đối chiếu bản gốc — bắt buộc mở toàn văn trước khi viện dẫn số điều cụ thể. Cùng đợt ban hành còn Thông tư 79/2025/TT-NHNN (cho vay ra nước ngoài, thu hồi nợ nước ngoài của tổ chức tín dụng) và Thông tư 80/2025/TT-NHNN (sửa Thông tư 12/2022/TT-NHNN về vay, trả nợ nước ngoài của doanh nghiệp) — hai văn bản này chưa được xác minh.'
+          }
+        ]
+      },
+      {
+        id:'nd52b', kind:'doc', code:'NĐ 52/2024/NĐ-CP', shared:true, ref:'nd52',
+        name:'Cấp phép TGTT và hệ thống thanh toán quốc tế',
+        title:'Nghị định số 52/2024/NĐ-CP về thanh toán không dùng tiền mặt — góc nhìn thanh toán quốc tế',
+        role:'Nghị định · dùng chung với nhánh 2', status:'check',
+        banHanh:'15/05/2024 — Chính phủ',
+        hieuLuc:'01/07/2024',
+        chucNang:'Node giao nhau giữa hai nhánh — cùng một văn bản, hai chức năng khác nhau. Ở nhánh Sandbox ngân hàng & fintech nó là khuôn khổ thanh toán không dùng tiền mặt nói chung; ở nhánh này nó là văn bản định danh "thanh toán quốc tế" và đặt hai cửa cấp phép quan trọng nhất cho fintech xuyên biên giới: chấp thuận cho ngân hàng tham gia hệ thống thanh toán quốc tế, và Giấy phép trung gian thanh toán do Ngân hàng Nhà nước cấp.',
+        dieuKhoan:[
+          'Định nghĩa thanh toán quốc tế: giao dịch thanh toán được thực hiện cho một bên liên quan là tổ chức hoặc cá nhân có tài khoản thanh toán hoặc phương tiện thanh toán phát hành ở NGOÀI lãnh thổ Việt Nam. Đây là ranh giới quyết định giao dịch nào thuộc phạm vi nhánh này.',
+          'Ngân hàng thương mại, chi nhánh ngân hàng nước ngoài phải được Ngân hàng Nhà nước chấp thuận mới được tham gia hệ thống thanh toán quốc tế; một trong các điều kiện là đã được phép thực hiện hoạt động ngoại hối cơ bản trên thị trường trong nước và quốc tế — điểm nối trực tiếp sang nhánh Pháp lệnh Ngoại hối.',
+          'Tổ chức cung ứng dịch vụ trung gian thanh toán là tổ chức không phải ngân hàng, chi nhánh ngân hàng nước ngoài, được Ngân hàng Nhà nước cấp Giấy phép hoạt động cung ứng dịch vụ trung gian thanh toán và chỉ được hoạt động trong đúng phạm vi ghi trong Giấy phép.',
+          'Dịch vụ chuyển mạch tài chính quốc tế: tổ chức cung ứng phải có Giấy phép trung gian thanh toán chuyển mạch tài chính còn hiệu lực; được một tổ chức thực hiện quyết toán kết quả bù trừ; có quy định nội bộ về tiêu chuẩn lựa chọn hệ thống thanh toán quốc tế để kết nối và về quy trình nghiệp vụ kỹ thuật; tổ chức vận hành hệ thống thanh toán quốc tế được kết nối phải thành lập và hoạt động hợp pháp.',
+          'Nguyên tắc tuân thủ chồng lớp: thanh toán bằng ngoại tệ và thanh toán quốc tế phải tuân theo Nghị định này cùng pháp luật về quản lý ngoại hối, bảo vệ dữ liệu người dùng, an ninh mạng, quản lý thuế, phòng chống rửa tiền, tài trợ khủng bố, tài trợ phổ biến vũ khí hủy diệt hàng loạt và các điều ước, thỏa thuận quốc tế về thanh toán mà Việt Nam tham gia.',
+          'Có quy định chuyển tiếp cho ngân hàng thương mại, chi nhánh ngân hàng nước ngoài và tổ chức cung ứng dịch vụ chuyển mạch tài chính đã tham gia hệ thống thanh toán quốc tế trước ngày Nghị định có hiệu lực.'
+        ],
+        nguon:{url:'https://sbv.gov.vn/en/w/sbv598227', label:'Ngân hàng Nhà nước — giới thiệu Nghị định'},
+        note:'Số điều cụ thể (các điều về giải thích từ ngữ, chấp thuận tham gia hệ thống thanh toán quốc tế, thẩm quyền cấp Giấy phép, chuyển tiếp) mới lấy từ nguồn tổng hợp thương mại, CHƯA đối chiếu toàn văn — vì vậy phần trên mô tả bằng lời, không ghi số điều. Muốn kiểm tra một tổ chức có Giấy phép trung gian thanh toán hay không: tra danh sách do Ngân hàng Nhà nước công bố tại sbv.gov.vn (bản cập nhật đến 30/04/2026 gồm 53 tổ chức không phải ngân hàng).',
+        children:[
+          {
+            id:'tt40', kind:'doc', code:'TT 40/2024/TT-NHNN',
+            name:'Hướng dẫn hoạt động trung gian thanh toán',
+            title:'Thông tư số 40/2024/TT-NHNN quy định về hoạt động cung ứng dịch vụ trung gian thanh toán',
+            role:'Thông tư hướng dẫn — lớp vận hành', status:'check',
+            banHanh:'17/07/2024 — Ngân hàng Nhà nước Việt Nam',
+            hieuLuc:'17/07/2024 — nhiều nhóm điều khoản có mốc riêng, xem phần điều khoản',
+            chucNang:'Lớp vận hành của Giấy phép trung gian thanh toán: quy định cụ thể hoạt động của tổ chức đã được cấp phép, hệ thống bù trừ điện tử, tài khoản đảm bảo thanh toán, ví điện tử và quan hệ với ngân hàng hợp tác, ngân hàng liên kết. Căn cứ ban hành trực tiếp là Nghị định 52/2024/NĐ-CP, nên hai văn bản phải đọc cùng nhau.',
+            dieuKhoan:[
+              'Thay thế Thông tư 39/2014/TT-NHNN và các văn bản sửa đổi, bổ sung.',
+              'Lộ trình hiệu lực phân kỳ: Điều 11, 12, 13, 14, 35 và khoản 4 Điều 47 từ 15/08/2024 · khoản 2 Điều 17, các Điều 18–23 và Điều 28 (trừ khoản 3) từ 01/10/2024 · điểm c khoản 6 Điều 25 và khoản 3 Điều 28 từ 01/01/2025 · điểm c, điểm đ khoản 1, điểm b, điểm d khoản 2 Điều 25 và điểm b, điểm d khoản 3 Điều 27 từ 01/07/2025.',
+              'Tài khoản đảm bảo thanh toán là tài khoản thanh toán bằng đồng Việt Nam của tổ chức cung ứng dịch vụ ví điện tử, dịch vụ hỗ trợ thu hộ, chi hộ mở tại ngân hàng hợp tác.',
+              'Hệ thống bù trừ điện tử: Điều 10 thành viên quyết toán · Điều 11 hạn mức bù trừ điện tử · Điều 12 ký quỹ để thiết lập hạn mức bù trừ điện tử.',
+              'Cùng ngày 17/07/2024, Ngân hàng Nhà nước ban hành Thông tư 41/2024/TT-NHNN về giám sát các hệ thống thanh toán quan trọng và hoạt động cung ứng dịch vụ trung gian thanh toán.'
+            ],
+            nguon:{url:'https://stp.hanam.gov.vn/Pages/thong-tu-so-402024tt-nhnn-ngay-1772024-quy-dinh-ve-hoat-dong-cung-ung-dich-vu-trung-gian-thanh-toan.aspx', label:'Sở Tư pháp Hà Nam — giới thiệu Thông tư'},
+            note:'CHƯA xác minh được nội dung Thông tư này về dịch vụ chuyển mạch tài chính quốc tế — phần cross-border của giấy phép TGTT hiện chỉ dựa vào Nghị định 52/2024/NĐ-CP. Ngân hàng Nhà nước đang có dự thảo thông tư sửa đổi Thông tư 40/2024/TT-NHNN, kiểm tra tình trạng ban hành trước khi viện dẫn. Nguồn hiện dẫn là trang giới thiệu của cơ quan địa phương, chưa phải bản ký số.'
+          }
+        ]
+      },
+      {
+        id:'tt09b', kind:'doc', code:'TT 09/2023/TT-NHNN', shared:true, ref:'tt09',
+        name:'Ngưỡng báo cáo chuyển tiền điện tử quốc tế',
+        title:'Thông tư số 09/2023/TT-NHNN hướng dẫn thực hiện một số quy định về phòng, chống rửa tiền — góc nhìn xuyên biên giới',
+        role:'Thông tư · dùng chung với nhánh 3', status:'ok',
+        banHanh:'28/07/2023 — Ngân hàng Nhà nước Việt Nam',
+        hieuLuc:'28/07/2023 — riêng Điều 9 có hiệu lực từ 01/12/2023 (Điều 11)',
+        chucNang:'Lớp tuân thủ chồng lên mọi giao dịch qua biên giới, bất kể chủ thể là ngân hàng, tổ chức trung gian thanh toán hay doanh nghiệp chi trả ngoại tệ. Điểm cần nhớ của nhánh này: ngưỡng báo cáo cho giao dịch quốc tế thấp hơn giao dịch trong nước rất nhiều — 1.000 đô la Mỹ so với 500 triệu đồng — nên khối lượng báo cáo phát sinh từ mảng chuyển tiền quốc tế lớn hơn nhiều so với cảm nhận thông thường.',
+        dieuKhoan:[
+          'Điều 9 — ngưỡng báo cáo giao dịch chuyển tiền điện tử: QUỐC TẾ từ 1.000 (một nghìn) đô la Mỹ trở lên hoặc ngoại tệ khác có giá trị tương đương; TRONG NƯỚC từ 500.000.000 (năm trăm triệu) đồng trở lên.',
+          'Khoản 2 Điều 10 — thời hạn gửi báo cáo dữ liệu điện tử: trước 16 giờ ngày làm việc tiếp theo ngay sau ngày phát sinh giao dịch.',
+          'Điều 7 — nghĩa vụ báo cáo giao dịch đáng ngờ KHÔNG phụ thuộc vào lượng tiền giao dịch của khách hàng hay việc giao dịch đã hoàn thành hay chưa.',
+          'Ngưỡng giao dịch có giá trị lớn phải báo cáo (400.000.000 đồng) nằm ở Quyết định 11/2023/QĐ-TTg — xem nhánh Tài sản mã hóa.'
+        ],
+        nguon:{url:'https://vanban.chinhphu.vn/?pageid=27160&docid=208451&classid=1&orggroupid=4', label:'vanban.chinhphu.vn — bản ký số'},
+        note:'Từ 01/12/2026, tổ chức cung cấp dịch vụ tài sản mã hóa cũng trở thành đối tượng báo cáo theo luật sửa đổi 03 luật thông qua ngày 24/08/2026 — xem node tương ứng ở nhánh Tài sản mã hóa.'
+      },
+      {
+        id:'nd340', kind:'doc', code:'NĐ 340/2025/NĐ-CP',
+        name:'Xử phạt VPHC lĩnh vực tiền tệ và ngân hàng',
+        title:'Nghị định số 340/2025/NĐ-CP quy định về xử phạt vi phạm hành chính trong lĩnh vực tiền tệ và ngân hàng',
+        role:'Nghị định — lớp chế tài', status:'check',
+        banHanh:'25/12/2025 — Chính phủ (ký: Hồ Đức Phớc)',
+        hieuLuc:'09/02/2026',
+        chucNang:'Lớp chế tài đóng lại cho nhánh này: các nghĩa vụ về ngoại hối, mua bán ngoại tệ và giấy phép do Ngân hàng Nhà nước cấp được bảo đảm thi hành bằng nghị định này. Đây là mốc cần theo dõi trong năm 2026 cùng với mốc 01/09/2026 của Nghị định 284/2026/NĐ-CP ở nhánh Tài sản mã hóa.',
+        dieuKhoan:[
+          'Phạm vi: hành vi vi phạm hành chính, hình thức và mức xử phạt, biện pháp khắc phục hậu quả, thẩm quyền xử phạt và thẩm quyền lập biên bản trong lĩnh vực tiền tệ và ngân hàng.',
+          'Điều 2 — đối tượng áp dụng: tổ chức tín dụng, chi nhánh ngân hàng nước ngoài, doanh nghiệp, hợp tác xã và các tổ chức khác hoạt động tại Việt Nam.',
+          'Có nhóm hành vi về mua, bán ngoại tệ; sản xuất, kinh doanh, mua bán vàng miếng; góp vốn, mua cổ phần, cổ phiếu; nhận tiền gửi — trong đó nhóm ngoại tệ là phần chạm trực tiếp vào nhánh này.',
+          'Điều 7 — vi phạm về giấy phép do Ngân hàng Nhà nước cấp và các hành vi bị nghiêm cấm, gồm hành vi sử dụng tên tổ chức không đúng tên ghi trong giấy phép.'
+        ],
+        nguon:{url:'https://vanban.chinhphu.vn/?pageid=27160&docid=216349', label:'vanban.chinhphu.vn — trang văn bản'},
+        note:'CHƯA xác minh: (1) việc nghị định này thay thế Nghị định 88/2019/NĐ-CP — bản thân NĐ 88/2019 đã bị sửa bởi NĐ 143/2021/NĐ-CP và NĐ 23/2023/NĐ-CP nên phải xác định rõ văn bản nào đang áp dụng; (2) quy mô chương, điều; (3) mức phạt cụ thể cho từng hành vi ngoại hối. Lưu ý khi tra cứu: một số trang luật tư nhân ghi sai hiệu lực là "từ ngày ban hành" — mốc đúng theo trang văn bản Chính phủ là 09/02/2026.'
       }
     ]
   }

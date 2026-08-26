@@ -1,6 +1,6 @@
 # Khung pháp lý Ngân hàng và Fintech — Sơ đồ tư duy
 
-Sơ đồ tư duy tra cứu khung pháp lý Việt Nam cho lĩnh vực ngân hàng và fintech, tổ chức theo 4 nhánh:
+Sơ đồ tư duy tra cứu khung pháp lý Việt Nam cho lĩnh vực ngân hàng và fintech, tổ chức theo 6 nhánh:
 
 | Nhánh | Nội dung |
 |---|---|
@@ -8,6 +8,8 @@ Sơ đồ tư duy tra cứu khung pháp lý Việt Nam cho lĩnh vực ngân hà
 | Sandbox ngân hàng – fintech | Cơ chế thử nghiệm riêng cho hoạt động ngân hàng |
 | Tài sản mã hóa | Khung pháp lý cho tài sản số, tài sản mã hóa |
 | Trung tâm tài chính quốc tế | Khung pháp lý cho trung tâm tài chính quốc tế tại Việt Nam |
+| Thanh toán xuyên biên giới | Khung pháp lý cho dòng tiền, thanh toán qua biên giới |
+| Chiến lược cải cách thị trường tài chính | Đề án cải cách tổng thể thị trường tài chính — khung định hướng liên ngành đến 2045 |
 
 ## Miễn trừ trách nhiệm
 

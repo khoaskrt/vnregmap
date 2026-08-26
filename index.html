@@ -19,6 +19,7 @@
     --c3:#C2721C;  /* Tài sản mã hóa            */
     --c4:#8A4A7D;  /* Trung tâm tài chính QT    */
     --c5:#A03050;  /* Thanh toán xuyên biên giới*/
+    --c6:#2E7D46;  /* Chiến lược cải cách thị trường tài chính */
 
     --flag:#C2721C;
     --draft:#9A938A;
@@ -143,15 +144,32 @@
 
   @media (max-width:900px){
     .panel{
-      top:auto;left:0;width:auto;max-height:74vh;border-left:0;
+      top:auto;left:0;width:auto;max-height:74vh;max-height:74dvh;border-left:0;
       border-top:1px solid var(--line);border-radius:16px 16px 0 0;
       animation:up .26s cubic-bezier(.4,.1,.2,1)
     }
     @keyframes up{from{transform:translateY(20px);opacity:0}to{transform:none;opacity:1}}
     .legend{margin-left:0;font-size:11px}
     .hdr{padding:14px 16px 12px;gap:10px}
+    .p-body{padding-bottom:calc(28px + env(safe-area-inset-bottom))}
+  }
+
+  /* ── thiết bị cảm ứng: vùng chạm ≥44px theo chuẩn Apple ──── */
+  @media (pointer:coarse){
+    .zoom{gap:8px;bottom:calc(16px + env(safe-area-inset-bottom))}
+    .zoom button{width:44px;height:44px}
+    .p-close{width:44px;height:44px}
+  }
+
+  /* ── điện thoại hẹp (iPhone SE/mini → Pro Max) ───────────── */
+  @media (max-width:480px){
+    .hdr{padding:10px 14px 9px;gap:8px}
+    .legend{font-size:10.5px;gap:5px 10px}
+    .p-row{grid-template-columns:1fr;gap:2px}
+    .p-row dt{padding-top:0;font-weight:600}
   }
 </style>
+<script defer src="/_vercel/insights/script.js"></script>
 </head>
 <body>
 
@@ -166,6 +184,7 @@
     <span><i style="background:var(--c3)"></i> Tài sản mã hóa</span>
     <span><i style="background:var(--c4)"></i> Trung tâm tài chính quốc tế</span>
     <span><i style="background:var(--c5)"></i> Thanh toán xuyên biên giới</span>
+    <span><i style="background:var(--c6)"></i> Chiến lược cải cách thị trường tài chính</span>
   </div>
 </header>
 
@@ -907,6 +926,40 @@ const DATA = {
         nguon:{url:'https://datafiles.chinhphu.vn/cpp/files/vbpq/2025/12/340-ndcp.signed.pdf', label:'Bản ký số — datafiles.chinhphu.vn'},
       }
     ]
+  },
+
+  /* ─────────────────── NHÁNH 6 ─────────────────── */
+  {
+    id:'b6', kind:'branch', color:'c6', side:'L',
+    title:'Chiến lược cải cách thị trường tài chính',
+    role:'Trụ 6 — chiến lược cải cách tổng thể, khung định hướng liên ngành',
+    chucNang:'Đề án bao trùm cả 5 trụ còn lại: đặt mục tiêu và lộ trình 2026-2045 cho toàn thị trường tài chính (ngân hàng, chứng khoán, bảo hiểm, tài sản mã hóa, Trung tâm tài chính quốc tế, thanh toán) trong một văn bản chiến lược duy nhất. Không tự đặt ra quyền/nghĩa vụ pháp lý cụ thể — vai trò là khung định hướng mà các luật/nghị định/thông tư ở nhánh 1-5 sẽ lần lượt cụ thể hóa trong những năm tới.',
+    children:[
+      {
+        id:'qd1413', kind:'doc', code:'QĐ 1413/QĐ-TTg',
+        name:'Đề án Cải cách tổng thể thị trường tài chính đến 2045',
+        title:'Quyết định số 1413/QĐ-TTg của Thủ tướng Chính phủ phê duyệt Đề án Cải cách tổng thể thị trường tài chính Việt Nam gắn với thực hiện mục tiêu tăng trưởng ở mức cao, liên tục đến năm 2045',
+        role:'Quyết định chiến lược — trục chính của nhánh', status:'ok',
+        banHanh:'27/07/2026 — Thủ tướng Chính phủ (KT. Thủ tướng, Phó Thủ tướng Nguyễn Văn Thắng)',
+        hieuLuc:'27/07/2026 — kể từ ngày ký (Điều 5)',
+        quyMo:'5 điều + 01 Phụ lục phân công (40 nhiệm vụ, 8 nhóm giải pháp, lộ trình 2026-2045)',
+        chucNang:'Văn bản chiến lược nền của nhánh này. Phạm vi rộng hơn hẳn các "trụ" khác của mindmap — bao trùm cả chứng khoán, bảo hiểm, kế toán-kiểm toán — nên chỉ các nội dung liên quan trực tiếp ngân hàng/fintech được trích ở dieuKhoan dưới đây, không chép toàn bộ 28 trang văn bản.',
+        dieuKhoan:[
+          'Mục tiêu cụ thể (Điều 1.II.2.d) — Hiện đại hóa hệ thống ngân hàng: đến năm 2030, 100% ngân hàng thương mại áp dụng đầy đủ các tỷ lệ đảm bảo an toàn theo quy định của NHNN, tiệm cận chuẩn Basel III; ít nhất 75% người trưởng thành có thông tin về lịch sử tín dụng trong hệ thống thông tin tín dụng của NHNN.',
+          'Nhiệm vụ thể chế, lĩnh vực tiền tệ-ngân hàng (Điều 1.III.1.a) — rà soát, sửa đổi Luật Các tổ chức tín dụng về an toàn hoạt động, xử lý nợ xấu, nguồn xử lý nợ xấu; bổ sung khung pháp lý cho các mô hình kinh doanh mới: ngân hàng số, cho vay ngang hàng, tiền điện tử, quỹ tiền điện tử.',
+          'Cùng nhóm nhiệm vụ trên — yêu cầu ngân hàng thương mại cổ phần quy mô lớn áp dụng đầy đủ, toàn diện Basel III và chuẩn báo cáo tài chính quốc tế IFRS 9; xây dựng cơ chế thử nghiệm có kiểm soát (Regulatory Sandbox) cho công nghệ tài chính mới (Fintech), cho vay số, tài chính xanh — điểm giao trực tiếp với nhánh "Sandbox ngân hàng & fintech" và "Sandbox công nghệ số".',
+          'Điều 2 khoản 2 — Ngân hàng Nhà nước chủ trì thị trường tiền tệ, tín dụng, ngoại hối, hệ thống thanh toán, cơ cấu lại tổ chức tín dụng; tiếp tục tái cơ cấu tổ chức tín dụng yếu kém gắn với xử lý nợ xấu, chuyển từ giám sát tuân thủ sang giám sát trên cơ sở rủi ro; thúc đẩy chuyển đổi số ngành ngân hàng.',
+          'Nhóm giải pháp đối với thị trường tài sản mã hóa (Điều 1.III.2.g) — lộ trình bắt đầu từ cơ chế thử nghiệm có kiểm soát (sandbox), sau đó mở rộng sang chứng khoán số hóa (tokenized securities), token hóa tài sản thực (RWA), trái phiếu số hóa và quỹ đầu tư số hóa trên nền tảng công nghệ sổ cái phân tán (DLT) — liên kết trực tiếp với nhánh "Tài sản mã hóa".',
+          'Theo Phụ lục phân công nhiệm vụ — nghiên cứu, đề xuất cơ chế, chính sách và triển khai thử nghiệm tiền kỹ thuật số của Ngân hàng trung ương (CBDC), giai đoạn 2029-2030, Bộ Tài chính và Ngân hàng Nhà nước chủ trì.',
+          'Mục tiêu vận hành (Điều 1.II.2.g) — vận hành hiệu quả Trung tâm tài chính quốc tế Việt Nam tại Thành phố Hồ Chí Minh và Đà Nẵng theo mô hình "một trung tâm, hai điểm đến", hướng tới cấp khu vực vào năm 2035 và quốc tế vào năm 2045 — liên kết nhánh "Trung tâm tài chính quốc tế".',
+          'Mục tiêu cụ thể (Điều 1.II.2.e) — thiết lập hạ tầng thanh toán hiện đại, đồng bộ, có kết nối với hệ thống thanh toán song phương và đa phương với các đối tác, khu vực và thế giới chậm nhất vào năm 2028 — liên quan nhánh "Thanh toán xuyên biên giới".',
+          'Điều 2 khoản 1 điểm a — Bộ Tài chính phối hợp Ngân hàng Nhà nước nghiên cứu kinh nghiệm quốc tế để đề xuất xây dựng Luật về quản lý giám sát thị trường tài chính và dịch vụ tài chính cho Việt Nam "vào thời điểm phù hợp" — mới là định hướng nghiên cứu, chưa có số hiệu luật cụ thể, không suy đoán thêm.',
+          'Điều 3, Điều 5 — lộ trình thực hiện theo Phụ lục phân công nhiệm vụ kèm theo (2026-2045, 8 nhóm giải pháp, nhiều bộ/ngành/địa phương phối hợp, chủ trì chính là Bộ Tài chính và Ngân hàng Nhà nước); Quyết định có hiệu lực kể từ ngày ký ban hành.'
+        ],
+        nguon:{url:'https://congbao.chinhphu.vn/van-ban/quyet-dinh-so-1413-qd-ttg-470180.htm', label:'Công báo số 465, ngày 08/08/2026 — bản ký số toàn văn'},
+        note:'Link vanban.chinhphu.vn do người dùng cung cấp (docid=219144) trỏ sai sang một quyết định khác (1493/QĐ-TTg, về chương trình khoa học công nghệ) — không dùng. thuvienphapluat.vn chặn fetch tự động (403); đã xác minh toàn văn qua Công báo Chính phủ.'
+      }
+    ]
   }
 ]};
 </script>
@@ -1207,6 +1260,13 @@ function buildNodeEl(n){
     hit.setAttribute('class','caret-hit');
     hit.style.cursor = 'pointer';
 
+    /* vùng chạm trong suốt, lớn hơn vòng hiển thị — không đổi giao diện,
+       chỉ giúp bấm chính xác hơn trên màn hình cảm ứng */
+    const hitArea = document.createElementNS(SVGNS,'circle');
+    hitArea.setAttribute('cx', cx); hitArea.setAttribute('cy', 0); hitArea.setAttribute('r', 13);
+    hitArea.setAttribute('fill', 'transparent');
+    hit.appendChild(hitArea);
+
     const c = document.createElementNS(SVGNS,'circle');
     c.setAttribute('cx', cx); c.setAttribute('cy', 0); c.setAttribute('r', 9);
     c.setAttribute('fill','var(--canvas)');
@@ -1253,9 +1313,10 @@ function fit(){
     x0 = Math.min(x0, n.x - n.w/2); x1 = Math.max(x1, n.x + n.w/2);
     y0 = Math.min(y0, n.y - n.h/2); y1 = Math.max(y1, n.y + n.h/2);
   });
-  const pad = 44;
   const W = stage.clientWidth, H = stage.clientHeight;
-  vt.k = clamp(Math.min((W-2*pad)/(x1-x0), (H-2*pad)/(y1-y0)), .4, 1);
+  const pad  = W <= 480 ? 28 : 44;
+  const minK = W <= 480 ? .55 : .4;
+  vt.k = clamp(Math.min((W-2*pad)/(x1-x0), (H-2*pad)/(y1-y0)), minK, 1);
   vt.x = W/2 - ((x0+x1)/2) * vt.k;
   vt.y = H/2 - ((y0+y1)/2) * vt.k;
   applyVT();
@@ -1267,13 +1328,44 @@ function fit(){
    Thay bằng theo dõi pointermove/pointerup ở cấp window: vẫn kéo được khi con
    trỏ ra ngoài canvas mà không làm sai target của click. */
 let dragged = false, dragging = false, last = null, dragId = null;
+/* pinch-to-zoom 2 ngón: theo dõi mọi pointer đang chạm, khi có 2 thì
+   dừng pan 1 ngón và zoom quanh trung điểm 2 ngón theo cùng công thức
+   dùng cho wheel/zoomBy */
+const pointers = new Map();
+let pinchDist = null;
+function pinchInfo(){
+  const pts = [...pointers.values()];
+  const dx = pts[0].x - pts[1].x, dy = pts[0].y - pts[1].y;
+  const r = svg.getBoundingClientRect();
+  return {
+    dist: Math.hypot(dx, dy),
+    mx: (pts[0].x + pts[1].x)/2 - r.left,
+    my: (pts[0].y + pts[1].y)/2 - r.top
+  };
+}
 svg.addEventListener('pointerdown', e => {
   if (e.button !== 0 && e.pointerType === 'mouse') return;
+  pointers.set(e.pointerId, {x:e.clientX, y:e.clientY});
+  if (pointers.size === 2){
+    dragging = false; dragId = null; svg.classList.remove('grabbing');
+    pinchDist = pinchInfo().dist;
+    return;
+  }
   dragging = true; dragged = false; dragId = e.pointerId;
   last = {x:e.clientX, y:e.clientY};
   svg.classList.add('grabbing');
 });
 window.addEventListener('pointermove', e => {
+  if (pointers.has(e.pointerId)) pointers.set(e.pointerId, {x:e.clientX, y:e.clientY});
+  if (pointers.size === 2){
+    const {dist, mx, my} = pinchInfo();
+    const k2 = clamp(vt.k * (dist/pinchDist), .4, 2.5);
+    vt.x = mx - (mx - vt.x) * (k2/vt.k);
+    vt.y = my - (my - vt.y) * (k2/vt.k);
+    vt.k = k2; pinchDist = dist; dragged = true;
+    applyVT();
+    return;
+  }
   if (!dragging || e.pointerId !== dragId) return;
   const dx = e.clientX - last.x, dy = e.clientY - last.y;
   if (Math.abs(dx) + Math.abs(dy) > 3) dragged = true;
@@ -1281,6 +1373,8 @@ window.addEventListener('pointermove', e => {
   applyVT();
 });
 function endDrag(e){
+  if (e) pointers.delete(e.pointerId);
+  if (pointers.size < 2) pinchDist = null;
   if (!dragging || (e && e.pointerId !== dragId)) return;
   dragging = false; dragId = null; svg.classList.remove('grabbing');
   /* click được dispatch sau pointerup/mouseup trong cùng task, nên reset cờ
